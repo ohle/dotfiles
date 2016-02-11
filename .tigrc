@@ -1,0 +1,6 @@
+bind generic ^ ?git stash save "%(prompt)" # save to the stash
+bind generic v ?git stash pop              # pop from the stash
+
+bind generic + !git commit --amend
+
+bind generic y !@bash -c "echo -n $(git rev-parse --short %(commit)) | xclip" # copy hash
