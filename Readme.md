@@ -4,7 +4,7 @@
 Use a bare repository `$HOME/.myconf` to track dotfiles. Useful alias:
 
 ```sh
-alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME
+alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
 ```
 
 ### Hiding untracked files from status
@@ -16,5 +16,5 @@ config config status.showUntrackedFiles no
 ```sh
 git clone --separate-git-dir=$HOME/.myconf/ repo $HOME/myconf-tmp
 rm -r $HOME/myconf-tmp/
-alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME
+alias config='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
 ```
