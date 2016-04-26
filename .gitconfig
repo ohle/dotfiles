@@ -20,8 +20,8 @@
 
 [color]
 	ui = auto
-[user]
-	name = Ohle Claussen
-	email = claussen@jpk.com
+[include]
+    # add user.name and user.email to this file
+    path = .gitconfig-user
 [github]
 	user = ohle
