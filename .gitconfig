@@ -1,0 +1,27 @@
+[core]
+	autocrlf = false
+	pager = diff-so-fancy | less --tabs=1,5 -R
+
+[alias]
+	l = log --graph --pretty='format:%C(red)%d%C(reset) %C(yellow)%h%C(reset) %ar %C(green)%aN%C(reset) %s'
+	st = status -sb
+	up = jpk update
+	amend = commit --amend --no-edit
+	# list things
+	branches = branch -a
+	tags = tag
+	stashes = stash list
+	remotes = remote -v
+	# undo things
+	unstage = reset -q HEAD --
+	discard = checkout --
+	# what is about to be commited?
+	precommit = diff --cached --diff-algorithm=minimal -w
+
+[color]
+	ui = auto
+[user]
+	name = Ohle Claussen
+	email = claussen@jpk.com
+[github]
+	user = ohle
