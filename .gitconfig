@@ -1,3 +1,7 @@
+# vim: noexpandtab
+[include]
+	path = .gitconfig-local
+
 [core]
 	autocrlf = false
 	pager = diff-so-fancy | less --tabs=1,5 -R
@@ -5,7 +9,6 @@
 [alias]
 	l = log --graph --pretty='format:%C(red)%d%C(reset) %C(yellow)%h%C(reset) %ar %C(green)%aN%C(reset) %s'
 	st = status -sb
-	up = jpk update
 	amend = commit --amend --no-edit
 	# list things
 	branches = branch -a
@@ -20,8 +23,5 @@
 
 [color]
 	ui = auto
-[include]
-    # add user.name and user.email to this file
-    path = .gitconfig-user
 [github]
 	user = ohle
