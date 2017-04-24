@@ -10,6 +10,8 @@ require("naughty")
 -- Load Debian menu entries
 require("debian.menu")
 
+local scratch = require "scratch"
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -262,7 +264,18 @@ globalkeys = awful.util.table.join(
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
+              end),
+
+    -- scratches
+    awful.key({ modkey }, "b",
+              function()
+                  scratch.toggle("qutebrowser", { class = "qutebrowser" })
+              end),
+    awful.key({ modkey }, "s",
+              function()
+                  scratch.toggle("oni", { name = ".*ONI.*" })
               end)
+
 )
 
 clientkeys = awful.util.table.join(
