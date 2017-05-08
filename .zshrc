@@ -84,7 +84,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ack="ack-grep"
 
-export EDITOR="nvim"
+export EDITOR="/home/claussen/local/bin/editor"
 eval $(dircolors /home/claussen/dircolors-solarized/dircolors.ansi-dark)
 
 export DEBFULLNAME="JPK Instruments AG (maintainer)"
