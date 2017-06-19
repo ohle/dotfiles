@@ -1,0 +1,38 @@
+#!/bin/bash
+# The command is called the following way:
+#   $events_command MSG IN jabber@id [file] (when receiving a message)
+#   $events_command MSG OUT jabber@id       (when sending a message)
+#   $events_command MSG MUC room_id [file]  (when receiving a MUC message)
+#   $events_command STATUS X jabber@id      (new buddy status is X)
+#   $events_command UNREAD "N x y z"        (number of unread buddy buffers)
+#   (x=attention y=muc unread buffers z=muc unread buffers with attention sign)
+
+event=$1
+arg1=$2
+arg2=$3
+filename=$4
+
+function notify() {
+    title=$1
+    message=$2
+    # notify-send --icon=/path/to/icon "$title" "$message"
+    notify-send "$title" "$message"
+}
+
+if [ "$event" = "MSG" ]
+then
+    case "$arg1" in
+        IN)
+            notify "$1" "$(cat "$filename")" && rm "$filename"
+            ;;
+        MUC)
+            notify "Chat message in room $1" "$(cat "$filename")" && rm "$filename"
+            ;;
+    esac
+elif [ "$event" = "STATUS" ]
+then
+    true
+elif [ "$event" = "UNREAD" ]
+then
+    true
+fi
