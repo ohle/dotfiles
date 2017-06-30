@@ -40,8 +40,6 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 beautiful.init("/home/claussen/.config/awesome/theme.lua")
-
--- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
 editor = os.getenv("EDITOR") or "editor"
 editor_cmd = terminal .. " -e " .. editor
@@ -185,7 +183,7 @@ for s = 1, screen.count() do
         },
         mylayoutbox[s],
         mytextclock,
-        s == 1 and mysystray or nil,
+        s == 0 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -392,4 +390,9 @@ end)
 
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+
+local spmdev = require "spmdev-hotkeys"
+spmdev.init({ modkey = modkey, devtag = tags[2][1], altdevtag = tags[1][1], testtag = tags[2][3] })
+
+-- This is used later as the default terminal and editor to run.
 -- }}}
