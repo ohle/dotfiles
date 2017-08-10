@@ -333,7 +333,16 @@ for i = 1, keynumber do
                       if client.focus and tags[client.focus.screen][i] then
                           awful.client.toggletag(tags[client.focus.screen][i])
                       end
-                  end))
+                  end),
+        awful.key({ modkey, "Mod1" }, "#" .. i + 9,
+                  function ()
+                      local screen = mouse.screen
+                      local other = screen == 1 and 2 or 1
+                      if tags[other][i] then
+                          awful.tag.viewonly(tags[other][i])
+                      end
+                  end)
+      )
 end
 
 clientbuttons = awful.util.table.join(
