@@ -51,9 +51,9 @@ plugins=(gitfast colored-man colorize vi-mode zsh-syntax-highlighting bgnotify c
 # User configuration
 
 export PATH="/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
-export PATH="/home/claussen/local/bin:$PATH"
+export PATH="$HOME/local/bin:$PATH"
 
-export MVN_HOME="/home/claussen/Apps/maven/"
+export MVN_HOME="$HOME/Apps/maven/"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -84,13 +84,12 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ack="ack-grep"
 
-export EDITOR="/home/claussen/local/bin/editor"
-eval $(dircolors /home/claussen/dircolors-solarized/dircolors.ansi-dark)
+export EDITOR="$HOME/local/bin/editor"
+eval $(dircolors $HOME/dircolors-solarized/dircolors.ansi-dark)
 
 export DEBFULLNAME="JPK Instruments AG (maintainer)"
 export DEBEMAIL="maintainer@jpk.com"
 export GIT_AUTHOR_NAME="Ohle Claussen"
-export EMAIL="claussen@jpk.com"
 
 export BROWSER="/usr/bin/chromium-browser"
 
