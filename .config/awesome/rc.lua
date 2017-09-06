@@ -12,6 +12,8 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 local scratch = require("scratch")
 
+local lain = require("lain")
+
 -- Load Debian menu entries
 require("debian.menu")
 
@@ -60,14 +62,14 @@ modkey = "Mod4"
 local layouts =
 {
     awful.layout.suit.floating,
-    awful.layout.suit.tile,
-    -- awful.layout.suit.tile.left,
-    awful.layout.suit.tile.bottom,
+    -- awful.layout.suit.tile,
+    lain.layout.uselesstile.right,
+    lain.layout.uselesstile.bottom,
     -- awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
+    lain.layout.uselessfair,
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
+    lain.layout.uselesspiral.uselessdwindle,
     -- awful.layout.suit.max,
     awful.layout.suit.max.fullscreen,
     -- awful.layout.suit.magnifier
@@ -88,8 +90,9 @@ tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
     local names = { "1:dev", "2:dev2", "3:spm", "4:terminals", "5:web", "6:mail", "7:fair", "8:max", "9:floating" }
-    local l = awful.layout.suit
-    local layouts = { l.tile, l.tile, l.floating, l.tile, l.floating, l.floating, l.fair, l.max, l.floating }
+    local standard = awful.layout.suit
+    local lain = lain.layout
+    local layouts = { lain.uselesstile.right, lain.uselesstile.right, standard.floating, lain.uselesstile.right, standard.floating, standard.floating, lain.uselessfair, standard.max, standard.floating }
     tags[s] = awful.tag(names, s, layouts)
 end
 -- }}}
