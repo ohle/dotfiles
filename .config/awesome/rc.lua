@@ -225,17 +225,14 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
+    awful.key({ modkey,           }, "u", quake:toggle() ),
+    awful.key({ modkey, "Shift"   }, "w",      awful.menu.clients       ),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
-    awful.key({ modkey, "Shift"   }, "t",
-        function()
-            awful.prompt.run({ prompt = "Rename tag: ", text = awful.tag.selected().name, },
-            mypromptbox[mouse.screen].widget,
-            function (s)
-                awful.tag.selected().name = s
-            end)
-        end),
+    awful.key({ modkey, "Shift"   }, "t",      function () lain.util.rename_tag(mypromptbox) end     ),
+    awful.key({ modkey, "Shift"   }, "n",      function () lain.util.add_tag(mypromptbox) end     ),
+    awful.key({ modkey, "Shift"   }, "x",      function () lain.util.remove_tag(mypromptbox) end     ),
     awful.key({ modkey,           }, "j",
         function ()
             awful.client.focus.byidx( 1)
@@ -246,7 +243,6 @@ globalkeys = awful.util.table.join(
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
         end),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
