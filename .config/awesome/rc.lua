@@ -225,7 +225,6 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "u", quake:toggle() ),
     awful.key({ modkey, "Shift"   }, "w",      awful.menu.clients       ),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
