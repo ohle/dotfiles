@@ -470,4 +470,5 @@ if screen.count() > 1 then
     spmdev.init({ modkey = modkey, devtag = tags[2][1], altdevtag = tags[1][1], testtag = tags[2][3] })
 end
 
+dofile(os.getenv("HOME") .. "/.config/awesome/rc-local.lua")
 -- }}}
