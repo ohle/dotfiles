@@ -461,13 +461,22 @@ client.connect_signal("manage", function (c, startup)
     end
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
-client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
+client.connect_signal("focus", function(c) 
+    c.border_color = beautiful.border_focus 
+    c.opacity = 1.0
+end)
+
+client.connect_signal("unfocus", function(c) 
+    c.border_color = beautiful.border_normal 
+    c.opacity = 0.9
+end)
 
 if screen.count() > 1 then
     local spmdev = require("spmdev-hotkeys")
     spmdev.init({ modkey = modkey, devtag = tags[2][1], altdevtag = tags[1][1], testtag = tags[2][3] })
 end
+
+awful.util.spawn('compton -b')
 
 dofile(os.getenv("HOME") .. "/.config/awesome/rc-local.lua")
 -- }}}
