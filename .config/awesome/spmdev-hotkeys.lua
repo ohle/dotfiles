@@ -8,12 +8,12 @@ function is_idea(c)
 end
     
 function move_idea(target)
-    local idea = awful.client.cycle(is_idea)()
+    local idea = awful.client.iterate(is_idea)()
     awful.client.movetotag(target, idea)
 end
 
 function make_idea_master()
-    local idea = awful.client.cycle(is_idea)()
+    local idea = awful.client.iterate(is_idea)()
     idea:swap(awful.client.getmaster())
 end
 
