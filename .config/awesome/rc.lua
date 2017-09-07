@@ -223,8 +223,14 @@ root.buttons(awful.util.table.join(
 ))
 -- }}}
 
+local quakes = {}
+for s = 1, screen.count() do
+    quakes[s] = lain.util.quake({screen = s, width = 0.5, vert = "bottom"})
+end
+
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
+    awful.key({ modkey,           }, "z",      function() quakes[mouse.screen]:toggle() end                    ),
     awful.key({ modkey, "Shift"   }, "w",      awful.menu.clients       ),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
