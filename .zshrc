@@ -112,3 +112,6 @@ export TERM
 # Workaround for neovim cursor shape issuse
 # See https://github.com/neovim/neovim/wiki/FAQ#how-can-i-change-the-cursor-shape-in-the-terminal
 export VTE_VERSION="100"
+
+GPG_TTY=$(tty)
+export GPG_TTY
