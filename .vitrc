@@ -1,0 +1,2 @@
+map s=:!r task %TASKID start<Return>
+map S=:!r task %TASKID stop<Return>
