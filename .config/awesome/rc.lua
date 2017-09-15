@@ -474,7 +474,7 @@ end)
 
 client.connect_signal("unfocus", function(c) 
     c.border_color = beautiful.border_normal 
-    c.opacity = 0.7
+    c.opacity = 0.9
 end)
 
 if screen.count() > 1 then
