@@ -25,3 +25,5 @@
 	ui = auto
 [github]
 	user = ohle
+[push]
+	default = simple
