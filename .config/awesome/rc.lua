@@ -323,6 +323,17 @@ clientkeys = awful.util.table.join(
         end)
 )
 
+-- Grab focus on first client on screen
+function grab_focus()
+    local all_clients = client.get()
+    for i, c in pairs(all_clients) do
+        if c:isvisible() and c.class ~= "xfce4-panel" then
+            client.focus = c
+            return
+        end
+    end
+end
+
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
@@ -335,6 +346,7 @@ for i = 1, 9 do
                         local tag = awful.tag.gettags(screen)[i]
                         if tag then
                            awful.tag.viewonly(tag)
+                           grab_focus()
                         end
                   end),
         -- Toggle tag.
