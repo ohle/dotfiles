@@ -13,7 +13,7 @@
 # Files
 data.location=~/.task
 
-uda.redmine.type=numeric
+uda.redmine.type=string
 uda.redmine.label=Redmine ID
 uda.estimate.type=numeric
 
@@ -24,3 +24,20 @@ taskd.key=~/.task/ohle.key.pem
 taskd.ca=~/.task/ca.cert.pem
 taskd.server=eudaemon.de:61649
 taskd.credentials=eudaemon/ohle/dd49abd2-4ea6-443c-ae3a-aa0ba0d88b4e
+
+uda.reviewed.type=date
+uda.reviewed.label=Reviewed
+
+report._reviewed.description=Tasksh review report.  Adjust the filter to your needs.
+report._reviewed.columns=uuid
+report._reviewed.sort=reviewed+,modified+
+report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +PENDING or +WAITING )
+
+context.work=project:jpk
+context.home=project:home
+
+default.project=jpk.inbox
+default.command=ls
+
+report.ls.sort=urgency-
+context=work
