@@ -92,7 +92,7 @@ for s = 1, screen.count() do
     local names = { "1:dev", "2:dev2", "3:spm", "4:terminals", "5:web", "6:mail", "7:fair", "8:max", "9:floating" }
     local standard = awful.layout.suit
     local lain = lain.layout
-    local layouts = { lain.uselesstile.right, lain.uselesstile.right, standard.floating, lain.uselesstile.right, standard.floating, standard.floating, lain.uselessfair, standard.max, standard.floating }
+    local layouts = { lain.uselesstile.right, lain.uselesstile.right, standard.floating, lain.uselesstile.right, lain.uselesstile.right, lain.uselesstile.top, lain.uselessfair, standard.max, standard.floating }
     tags[s] = awful.tag(names, s, layouts)
 end
 -- }}}
