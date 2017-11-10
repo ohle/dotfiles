@@ -128,3 +128,7 @@ fi
 
 export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
+
+# Use bash completion functions
+autoload -U +X bashcompinit && bashcompinit
+source /etc/bash_completion.d/jpk-completion
