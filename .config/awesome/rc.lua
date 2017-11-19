@@ -399,7 +399,11 @@ awful.rules.rules = {
                      focus = awful.client.focus.filter,
                      raise = true,
                      keys = clientkeys,
-                     buttons = clientbuttons } },
+                     buttons = clientbuttons,
+                     maximized_vertical = false,
+                     maximized_horizontal = false,
+                     maximized = false
+                 } },
     { rule_any = {
         { class = { "Mplayer", "gimp" },
           name = { "QEMU" } },
