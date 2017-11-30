@@ -133,3 +133,5 @@ eval "$(pyenv init -)"
 # Use bash completion functions
 autoload -U +X bashcompinit && bashcompinit
 source /etc/bash_completion.d/jpk-completion
+
+eval $(keychain --quiet --eval id_dsa /home/claussen/.vcsconfig/ssh/jpk-git-key)
