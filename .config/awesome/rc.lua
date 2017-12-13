@@ -325,7 +325,7 @@ clientkeys = awful.util.table.join(
 
 -- Grab focus on first client on screen
 function grab_focus()
-    local all_clients = client.get()
+    local all_clients = client.get(mouse.screen)
     for i, c in pairs(all_clients) do
         if c:isvisible() and c.class ~= "xfce4-panel" then
             client.focus = c
