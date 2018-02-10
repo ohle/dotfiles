@@ -87,7 +87,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ack="ack-grep"
 
-export EDITOR="$HOME/local/bin/editor"
+export EDITOR="$HOME/local/bin/nvr-edit"
 eval $(dircolors $HOME/dircolors-solarized/dircolors.ansi-dark)
 
 export DEBFULLNAME="JPK Instruments AG (maintainer)"
@@ -136,3 +136,4 @@ autoload -U +X bashcompinit && bashcompinit
 source /etc/bash_completion.d/jpk-completion
 
 eval $(keychain --quiet --eval id_dsa /home/claussen/.vcsconfig/ssh/jpk-git-key)
+source $HOME/.vim/bundle/vmux/plugin/setup_vmux.sh
