@@ -50,9 +50,10 @@ plugins=(gitfast colored-man colorize vi-mode zsh-syntax-highlighting bgnotify c
 
 # User configuration
 
+export GOPATH="$HOME/gocode"
 export PATH="/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
 export PATH="$HOME/.pyenv/bin:$PATH"
-export PATH="$HOME/anaconda2/bin:$PATH"
+export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/local/bin:$PATH"
 
 export MVN_HOME="$HOME/Apps/maven/"
