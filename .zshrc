@@ -94,7 +94,7 @@ export DEBFULLNAME="JPK Instruments AG (maintainer)"
 export DEBEMAIL="maintainer@jpk.com"
 export GIT_AUTHOR_NAME="Ohle Claussen"
 
-export BROWSER="/usr/bin/chromium-browser"
+export BROWSER="/usr/bin/firefox"
 
 # Mostly for dockerized-build-host
 
