@@ -404,10 +404,38 @@ awful.rules.rules = {
                      maximized_horizontal = false,
                      maximized = false
                  } },
+    { rule = { name = "^JPK",
+               instance = "sun-awt-X11-XFramePeer"
+             },
+      properties = { 
+          tag = tags[2][3],
+          switchtotag = true
+    } },
+    { rule = { name = "^jpk",
+               instance = "sun-awt-X11-XFramePeer"
+             },
+      properties = { 
+          tag = tags[1][3],
+          switchtotag = true
+    } },
     { rule_any = {
         { class = { "Mplayer", "gimp" },
           name = { "QEMU" } },
           properties = { floating = true } } },
+    { rule = {
+        class = "jetbrains-.*",
+        instance = "sun-awt-X11-XWindowPeer"
+        },
+      properties = {
+          floating = true,
+          -- focus = true,
+          focusable = false,
+          ontop = true,
+          placement = awful.placement.restore,
+          buttons = {}
+      }
+  }
+
 }
 -- }}}
 
@@ -415,12 +443,12 @@ awful.rules.rules = {
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c, startup)
     -- Enable sloppy focus
-    c:connect_signal("mouse::enter", function(c)
-        if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
-            and awful.client.focus.filter(c) then
-            client.focus = c
-        end
-    end)
+    -- c:connect_signal("mouse::enter", function(c)
+    --     if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
+    --         and awful.client.focus.filter(c) then
+    --         client.focus = c
+    --     end
+    -- end)
 
     if not startup then
         -- Set the windows at the slave,
