@@ -20,6 +20,7 @@
 	discard = checkout --
 	# what is about to be commited?
 	precommit = diff --cached --diff-algorithm=minimal -w
+	cv = commit --verbose
 
 [color]
 	ui = auto
