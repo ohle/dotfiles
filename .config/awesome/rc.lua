@@ -10,7 +10,7 @@ local beautiful = require("beautiful")
 -- Notification library
 local naughty = require("naughty")
 local menubar = require("menubar")
-local scratch = require("scratch")
+local scratchdrop = require("scratchdrop")
 
 local lain = require("lain")
 
@@ -235,7 +235,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
-    awful.key({ modkey, "Shift"   }, "t",      function () lain.util.rename_tag(mypromptbox) end     ),
+    awful.key({ modkey, "Shift"   }, "r",      function () lain.util.rename_tag(mypromptbox) end     ),
     awful.key({ modkey, "Shift"   }, "n",      function () lain.util.add_tag(mypromptbox) end     ),
     awful.key({ modkey, "Shift"   }, "x",      function () lain.util.remove_tag(mypromptbox) end     ),
     awful.key({ modkey,           }, "j",
@@ -290,17 +290,7 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end),
-    -- scratches
-    awful.key({ modkey }, "b",
-              function()
-                  scratch.toggle("qutebrowser", { class = "qutebrowser" })
-              end),
-    awful.key({ modkey }, "s",
-              function()
-                  scratch.toggle("oni", { name = ".*ONI.*" })
-              end)
-
+    awful.key({ modkey }, "p", function() menubar.show() end)
 )
 
 clientkeys = awful.util.table.join(
@@ -309,7 +299,9 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
-    awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
+    awful.key({ modkey,           }, "t",      function () scratchdrop('/usr/bin/xfce4-terminal', 'top', 'center', .33, .25, false) end),
+    awful.key({ modkey, "Shift"   }, "t",      function () scratchdrop('/usr/bin/firefox --new-window https://mail.google.com/tasks/canvas', 'bottom', 'center', .33, .25, false) end),
+
     awful.key({ modkey,           }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
