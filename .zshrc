@@ -52,9 +52,11 @@ plugins=(gitfast colored-man colorize vi-mode zsh-syntax-highlighting bgnotify c
 
 export GOPATH="$HOME/gocode"
 export PATH="/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
+export PATH="$PATH:$HOME/anaconda3/bin"
 export PATH="$HOME/.pyenv/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/local/bin:$PATH"
+export PATH="/home/ohle/pebble-dev/pebble-sdk-4.5-linux64/bin/:$PATH"
 
 export MVN_HOME="$HOME/Apps/maven/"
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -128,12 +130,17 @@ then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-export PYENV_ROOT="$HOME/.pyenv"
-eval "$(pyenv init -)"
+# export PYENV_ROOT="$HOME/.pyenv"
+# eval "$(pyenv init -)"
 
 # Use bash completion functions
 autoload -U +X bashcompinit && bashcompinit
-source /etc/bash_completion.d/jpk-completion
+[ -e /etc/bash_completion.d/jpk-completion ] && source /etc/bash_completion.d/jpk-completion
 
-eval $(keychain --quiet --eval id_dsa /home/claussen/.vcsconfig/ssh/jpk-git-key)
+# Borg backup
+export BORG_REPO=/media/timecapsule/borg-backups/
+export BORG_PASSCOMMAND="pass show backup"
+
+local JPK_GIT_KEY=/platter/ohle/trusty-chroot/home/ohle/.vcsconfig/ssh/jpk-git-key
+eval $(keychain --quiet --agents gpg,ssh --eval id_rsa "$JPK_GIT_KEY")
 source $HOME/.vim/bundle/vmux/plugin/setup_vmux.sh
