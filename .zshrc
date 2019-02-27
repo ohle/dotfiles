@@ -143,5 +143,5 @@ export BORG_REPO=/media/timecapsule/borg-backups/
 export BORG_PASSCOMMAND="pass show backup"
 
 local JPK_GIT_KEY=/platter/ohle/trusty-chroot/home/ohle/.vcsconfig/ssh/jpk-git-key
-eval $(keychain --quiet --agents gpg,ssh --eval id_rsa "$JPK_GIT_KEY")
+# eval $(keychain --quiet --agents gpg,ssh --eval id_rsa "$JPK_GIT_KEY")
 source $HOME/.vim/bundle/vmux/plugin/setup_vmux.sh
