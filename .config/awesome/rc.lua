@@ -417,7 +417,7 @@ awful.rules.rules = {
           switchtotag = true
     } },
     { rule_any = {
-        { class = { "Mplayer", "gimp" },
+        { class = { "Mplayer", "gimp", "qemu-pebble" },
           name = { "QEMU" } },
           properties = { floating = true } } },
     { rule = {
