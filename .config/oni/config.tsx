@@ -29,7 +29,7 @@ export const configuration = {
     "oni.useDefaultConfig": false,
     "oni.loadInitVim": true,
     "editor.fontSize": "14px",
-    // "editor.fontFamily": "Monaco",
+    "editor.fontFamily": "Terminus-Hack",
     "learning.enabled": false,
     "achievements.enabled": false,
     "autoClosingPairs.enabled": false,
