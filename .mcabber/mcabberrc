@@ -154,10 +154,10 @@ set cmdhistory_lines = 250
 #       will not create it.
 # Note: these options, except 'max_history_age' and 'max_history_blocks',
 # are used at startup time.
-#set logging = 1
-#set load_logs = 1
+set logging = 1
+set load_logs = 1
 #set logging_dir = ~/.mcabber/histo/
-#set logging_ignore_status = 1
+set logging_ignore_status = 1
 
 # Set log_muc_conf to 1 to enable MUC chatrooms logging (default = 0)
 #set log_muc_conf = 1
@@ -170,7 +170,7 @@ set cmdhistory_lines = 250
 # number of history days to load into memory with max_history_age.
 # Default = 0 (disabled -- everything is loaded)
 # Note: this option is only used when reading history files, not later.
-#set max_history_age = 0
+set max_history_age = 60
 
 # mcabber can store the list of unread messages in a state file,
 # so that the message flags are set back at next startup.
