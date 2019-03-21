@@ -7,8 +7,13 @@ require("awful.autofocus")
 local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
--- Notification library
+
+-- Notification library -- workaround to disable dbus notifications, which
+-- should be handled by xfce4-notify
+local _dbus = dbus; dbus = nil
 local naughty = require("naughty")
+dbus = _dbus
+
 local menubar = require("menubar")
 local scratchdrop = require("scratchdrop")
 
@@ -300,7 +305,8 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
     awful.key({ modkey,           }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey,           }, "t",      function () scratchdrop('/usr/bin/xfce4-terminal', 'top', 'center', .33, .25, false) end),
-    awful.key({ modkey, "Shift"   }, "t",      function () scratchdrop('/usr/bin/firefox --new-window https://mail.google.com/tasks/canvas', 'bottom', 'center', .33, .25, false) end),
+    awful.key({ modkey, "Shift"   }, "t",      function () scratchdrop('/usr/bin/firefox --new-window https://mail.google.com/tasks/canvas', 'bottom', 'center', .33, .33, false) end),
+    awful.key({ modkey,           }, "c",      function () scratchdrop('/usr/bin/conky', 'center', 'left', .25, 1.0, false) end),
 
     awful.key({ modkey,           }, "n",
         function (c)
