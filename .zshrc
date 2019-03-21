@@ -90,6 +90,7 @@ source $ZSH/oh-my-zsh.sh
 alias ack="ack-grep"
 
 export EDITOR="$HOME/local/bin/nvr-edit"
+export MANPAGER="nvim -c 'set ft=man' -"
 eval $(dircolors $HOME/dircolors-solarized/dircolors.ansi-dark)
 
 export DEBFULLNAME="JPK Instruments AG (maintainer)"
