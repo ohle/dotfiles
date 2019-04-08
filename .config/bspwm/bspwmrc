@@ -12,3 +12,4 @@ bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
 bspc rule -a Gimp desktop='^8' state=floating follow=on # move to desktop 8 and follow (i.e., switch view to 8 as well)
+bspc config external_rules_command "$(which bspwm-rules)"
