@@ -1,0 +1,17 @@
+#!/bin/bash
+windowId="$1"
+class="$2"
+instance="$2"
+monitor="$3"
+desktop="$4"
+node="$5"
+
+function title() {
+    xprop -id "$windowId" WM_NAME | sed -e 's/[^=]*= \+"\(.*\)"$/\1/'
+}
+
+if [ $(title) = "scratchterm" ]
+then
+    echo "$windowId" > /tmp/scratchid
+    echo "sticky=on state=floating hidden=on"
+fi
