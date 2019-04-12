@@ -1,0 +1,127 @@
+
+############################################################################################
+# Sidebar-Conky					 					   #
+# by wim66 https://www.google.com/+WillemO						   #
+# 26-5-15										   #
+# "Inspired by" other people's code							   #
+# Calendar, more great conky's http://erikdubois.be/category/conky			   #
+# Jesse Avalos http://speedracker.deviantart.com/					   #
+# Weather font by Kelly Kretchek https://plus.google.com/u/0/103934698784251707937/posts   #
+# Wallpaper http://0rax0.deviantart.com/art/Linux-2014-Wallpaper-457151439		   #
+# Use with Conky-Manager								   #
+# http://www.teejeetech.in/p/conky-manager.html						   #
+#											   #
+############################################################################################
+
+background yes
+double_buffer yes
+no_buffers yes
+text_buffer_size 2048
+imlib_cache_size 0
+update_interval 1
+cpu_avg_samples 1
+format_human_readable
+
+alignment top_left
+gap_x 0
+gap_y 0
+minimum_size 240 1080
+maximum_width 240
+
+own_window yes
+own_window_type normal	# options are: normal/override/dock/desktop/panel
+own_window_class Conky
+own_window_colour 333333
+
+border_inner_margin 0
+border_outer_margin 0
+
+default_bar_size 100 6
+draw_shades no
+default_shade_color 000000
+draw_outline no
+default_outline_color 000000
+draw_borders no
+draw_graph_borders yes
+default_graph_size 40 220
+show_graph_scale no
+show_graph_range no
+
+override_utf8_locale yes
+use_xft yes
+xftfont Terminus:size=9,weight:normal
+xftalpha 1
+uppercase no
+max_text_width 40
+
+# Solarized dark colors
+default_color       839496 # base0 / default content
+default_shade_color 93a1a1 # base1
+own_window_colour   002b36 # base03 / background
+color0              586e75 # base01 / comments
+color1              93a1a1 # base1  / emphasized content
+color2              b58900 # yellow
+color3              cb4b16 # orange
+color4              dc322f # red
+color5              d33682 # magenta
+color6              6c71c4 # violet
+color7              268bd2 # blue
+color8              2aa198 # cyan
+color9              859900 # green
+
+TEXT
+# day/time
+${goto 10}${voffset 10}${font Linux Biolinum O:size=22,weight:normal}${color1}${time %A}${font Linux Biolinum O:size=30,weight:normal}${alignr 5}${time %H:%M}
+#
+#calendar
+${voffset -15}${color1}${font Linux Biolinum O:size=14,weight:light}${alignc}${execpi 80000 ncal -MCh|sed '/\(20[0-9][0-9]\)/!s/^.*$/${offset 10}${font Terminus:size=9}${color2} &/;/\(20[0-9][0-9]\)/!s/.\{8\}$/${color9}&/;s/${color3} '"`date +%_d`"' /${color1} '"`date +%_d`"'${color3} /;/color1/!s/ '"`date +%_d`"'$c/${color1} '"`date +%_d`"'$c/;/color1/!s/ '"`date +%_d`"' /${color1} '"`date +%_d`"'${color2} /'}
+#
+# cpu load/temp/graph
+${goto 10}${voffset 5}CPU1: ${cpu cpu1}%${alignr 10}${exec sensors|grep 'Core 0'|awk '{print $3}'}
+${goto 10}${voffset -5}${color2}${cpugraph cpu1 40,220 859900 dc322f -t}
+${goto 10}${voffset 0}${color1}CPU2: ${cpu cpu2}%${alignr 10}${exec sensors|grep 'Core 1'|awk '{print $3}'}
+${goto 10}${voffset -5}${color2}${cpugraph cpu2 40,220 859900 dc322f -t}
+${goto 10}${voffset 0}${color1}CPU2: ${cpu cpu3}%${alignr 10}${exec sensors|grep 'Core 2'|awk '{print $3}'}
+${goto 10}${voffset -5}${color2}${cpugraph cpu3 40,220 859900 dc322f -t}
+${goto 10}${voffset 0}${color1}CPU2: ${cpu cpu4}%${alignr 10}${exec sensors|grep 'Core 3'|awk '{print $3}'}
+${goto 10}${voffset -5}${color2}${cpugraph cpu3 40,220 859900 dc322f -t}
+#
+# top processes
+${voffset -5}${font Linux Biolinum O:size=15,weight:normal}${color1}${alignc}Top Processes ${font}
+${voffset 5}${texeci 5 conkytop %CPU}
+#
+# top memory
+${goto 10}${voffset 5}RAM: $memperc%
+${goto 10}${voffset -5}${color2}${memgraph 40,220 859900 dc322f -t}
+${color1}${texeci 5 conkytop %MEM}
+#
+# top I/O
+${goto 10}${voffset 5}I/O: $diskio
+${goto 10}${voffset -5}${color2}${diskiograph /dev/sda 40,220 859900 dc322f -t}${color1}
+${goto 10}${top_io name 1}${alignr 10}${top_io io_perc 1}%
+${goto 10}${top_io name 2}${alignr 10}${top_io io_perc 2}%
+${goto 10}${top_io name 3}${alignr 10}${top_io io_perc 3}%
+${goto 10}${top_io name 4}${alignr 10}${top_io io_perc 4}%
+${goto 10}${top_io name 5}${alignr 10}${top_io io_perc 5}%
+${color1}
+#
+#network
+# ${voffset 10}${goto 10}Network${alignr 10}SSID: ${wireless_essid wlan0}
+# ${goto 10}Signal:${goto 70}${color2}${wireless_link_bar wlan0}${color1}${alignr 10}${wireless_link_qual_perc wlan0}%
+# ${goto 10}IP: ${alignr 10}${addr wlan0}
+# ${voffset 5}${goto 10}${color1}Upspeed:${alignr 10}${upspeed wlan0}
+# ${goto 10}${voffset 0}Total up:${alignr 10}${totalup wlan0}
+# ${goto 10}${color2}${upspeedgraph wlan0 40,220 66241C FF5A45 100 -l}
+# ${goto 10}${color1}Down:$color1${alignr 10}${downspeed wlan0}
+# ${goto 10}Total down:${alignr 10}${totaldown wlan0}
+# ${goto 10}{color2}${downspeedgraph wlan0 40,220 66241C FF5A45 100 -l},lk
+
+${goto 10}${voffset 5}Uplink:${alignr 10}${totalup eth0}
+${goto 10}${voffset -5}${color2}${upspeedgraph eth0 40,220 859900 dc322f -t}${color1}
+${goto 10}Downlink:${alignr 10}${totaldown eth0}
+${goto 10}${voffset -5}${color2}${downspeedgraph eth0 40,220 859900 dc322f -t}${color1}
+
+# ${voffset -5}${font Linux Biolinum O:size=15,weight:normal}${color1}${alignc}Mail${font}
+# ${voffset 5}${execpi 60 conkymail}
+
+
