@@ -19,3 +19,4 @@ bspc rule -a Conky state=floating center=on rectangle="242x1080+1168+13"
 bspc config external_rules_command "$(which bspwm-rules)"
 
 bar&
+compton&
