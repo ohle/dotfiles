@@ -10,8 +10,11 @@ function title() {
     xprop -id "$windowId" WM_NAME | sed -e 's/[^=]*= \+"\(.*\)"$/\1/'
 }
 
-if [ $(title) = "scratchterm" ]
+if [ "$(title)" = "scratchterm" ]
 then
     echo "$windowId" > /tmp/scratchid
     echo "sticky=on state=floating hidden=on"
+elif [[ $instance = "org-python-util-jython" ]] && [[ $(title) = JPK* ]]
+then
+    echo "desktop=^1:^3 follow=on"
 fi
