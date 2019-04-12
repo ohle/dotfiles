@@ -5,8 +5,22 @@ ORANGE="#cb4b16"
 RED="#dc322f"
 
 function clock() {
-    DATETIME=$(date "+%a %b %d, %T")
-    echo -n "$DATETIME"
+    datetime=$(date "+%a %b %d, %H:%M")
+    hour=$(date "+%H")
+    minute=$(date "+%M")
+
+    color="-"
+    if [[ $hour = 16 ]] && [[ $minute -gt 45 ]]
+    then
+        color="$GREEN"
+    elif [[ $hour -ge 17 ]] && [[ $minute -lt 15 ]]
+    then
+        color="$ORANGE"
+    elif [[ $hour -ge 17 ]]
+    then
+        color="$RED"
+    fi
+    echo -n "%{F${color}} $datetime %{F-}"
 }
 
 
@@ -52,25 +66,7 @@ function memory() {
 }
 
 function cpu() {
-    user=$(cat /proc/stat | awk '/cpu / { print $2 }')
-    nice=$(cat /proc/stat | awk '/cpu / { print $3 }')
-    system=$(cat /proc/stat | awk '/cpu / { print $4 }')
-    idle=$(cat /proc/stat | awk '/cpu / { print $5 }')
-    iowait=$(cat /proc/stat | awk '/cpu / { print $6 }')
-
-    percentage=$(( (user + system) * 100 / (user + system + idle) ))
-
-    echo -n "%{$(perc_color ${percentage})} ${percentage}% %{F-}"
-}
-
-function io() {
-    user=$(cat /proc/stat | awk '/cpu / { print $2 }')
-    nice=$(cat /proc/stat | awk '/cpu / { print $3 }')
-    system=$(cat /proc/stat | awk '/cpu / { print $4 }')
-    idle=$(cat /proc/stat | awk '/cpu / { print $5 }')
-    iowait=$(cat /proc/stat | awk '/cpu / { print $6 }')
-
-    percentage=$(( (iowait) * 100 / (user + system + idle + iowait) ))
+    percentage=$(top -bn1 | awk '/%Cpu\(s\)/ { print 100 - $8 }')
 
     echo -n "%{$(perc_color ${percentage})} ${percentage}% %{F-}"
 }
@@ -78,8 +74,8 @@ function io() {
 function run() {
     while true
     do
-        echo "%{A:focus_email:} $(email) %{A} %{c} %{A:conky:} CPU: $(cpu) MEM: $(memory) IO: $(io) %{A} %{r} $(clock) "
-        sleep 1
+        echo "%{A:focus_email:} $(email) %{A} %{c} %{A:conky:} CPU: $(cpu) MEM: $(memory) %{A} %{r} $(clock) "
+        sleep 5
     done
 }
 
