@@ -73,8 +73,8 @@ super + {_,shift + }c
 	bspc node -f {next,prev}.local
 
 # focus the next/previous monitor
-super + bracket{left,right}
-	bspc monitor -f {west,east}
+super + {_, shift + } bracket{left,right}
+	bspc {monitor -f, node -m} {west,east}
 
 # focus the last node/desktop
 super + {grave,Tab}
