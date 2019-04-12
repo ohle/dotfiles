@@ -18,5 +18,4 @@ bspc rule -a Gimp desktop='^8' state=floating follow=on # move to desktop 8 and 
 bspc rule -a Conky state=floating center=on rectangle="242x1080+1168+13"
 bspc config external_rules_command "$(which bspwm-rules)"
 
-xfce4-terminal -T scratchterm
 bar&
