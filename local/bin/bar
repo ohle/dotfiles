@@ -1,0 +1,41 @@
+#!/bin/bash
+
+ORANGE="#cb4b16"
+
+function clock() {
+    DATETIME=$(date "+%a %b %d, %T")
+    echo -n "$DATETIME"
+}
+
+
+function email() {
+    inbox=$(notmuch count is:inbox)
+    echo -n "Inbox: ${inbox}"
+    unread=$(notmuch count is:unread)
+    if [[ $count -gt 0 ]]
+    then
+        echo -n "%{F${ORANGE}} (${unread}) ${F-}"
+    fi
+}
+
+function focus_email() {
+    bspc desktop "^2:^6" -f
+    bspc node biggest.tiled.local -f
+}
+
+function run() {
+    while true
+    do
+        echo "%{A:focus_email:} $(email) %{A} %{r} $(clock) "
+        sleep 1
+    done
+}
+
+
+run | lemonbar -p -f terminus-12 -B "#002b36" -F "#839496" | while read line
+do
+    case "$line" in
+        focus_email)
+            focus_email
+    esac
+done
