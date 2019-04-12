@@ -10,6 +10,9 @@ super + Return
 super + @space
 	rofi -modi drun,run,window -show drun
 
+super + a
+    arrange -m
+
 super + shift + @space
     google
 
