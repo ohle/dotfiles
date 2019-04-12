@@ -10,27 +10,35 @@ function clock() {
     minute=$(date "+%M")
 
     color="-"
-    if [[ $hour = 16 ]] && [[ $minute -gt 45 ]]
+    if [[ $(hostname) = "ohle" ]]
     then
-        color="$GREEN"
-    elif [[ $hour -ge 17 ]] && [[ $minute -lt 15 ]]
-    then
-        color="$ORANGE"
-    elif [[ $hour -ge 17 ]]
-    then
-        color="$RED"
+        if [[ $hour = 16 ]] && [[ $minute -gt 45 ]]
+        then
+            color="$GREEN"
+        elif [[ $hour -ge 17 ]] && [[ $minute -lt 15 ]]
+        then
+            color="$ORANGE"
+        elif [[ $hour -ge 17 ]]
+        then
+            color="$RED"
+        fi
     fi
     echo -n "%{F${color}} $datetime %{F-}"
 }
 
 
 function email() {
-    inbox=$(notmuch count is:inbox)
-    echo -n "Inbox: ${inbox}"
-    unread=$(notmuch count is:unread)
-    if [[ $unread -gt 0 ]]
+    if command -v notmuch
     then
-        echo -n "%{F${ORANGE}} (${unread}) %{F-}"
+        inbox=$(notmuch count is:inbox)
+        echo -n "Inbox: ${inbox}"
+        unread=$(notmuch count is:unread)
+        if [[ $unread -gt 0 ]]
+        then
+            echo -n "%{F${ORANGE}} (${unread}) %{F-}"
+        fi
+    else
+        echo -n "."
     fi
 }
 
@@ -56,11 +64,18 @@ function perc_color() {
 }
 
 function memory() {
+    freever=$(free --version | awk '{ print $4 }' | awk -F. '{ print $3 }')
+
     total=$(free | awk '/Mem/ { printf($2) }')
     used=$(free | awk '/Mem/ { printf($3) }')
     buffers=$(free | awk '/Mem/ { printf($6) }')
     cached=$(free | awk '/Mem/ { printf($7) }')
-    percentage=$(( (used - buffers - cached) * 100 / total ))
+    if [[ $freever -ge 12 ]]
+    then
+        percentage=$(( used * 100 / total ))
+    else
+        percentage=$(( (used - buffers - cached) * 100 / total ))
+    fi
     color=$(perc_color $percentage)
     echo -n "%{F${color}} ${percentage}% %{F-}"
 }
