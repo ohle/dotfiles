@@ -128,5 +128,4 @@ super + {Left,Down,Up,Right}
 
 # scratch terminal
 super + s
-    id=$(cat /tmp/scratchid);\
-    bspc node $id --flag hidden; bspc node -f $id
+    xfce4-terminal --drop-down
