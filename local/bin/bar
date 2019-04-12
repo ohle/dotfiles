@@ -1,6 +1,8 @@
 #!/bin/bash
 
+GREEN="#859900"
 ORANGE="#cb4b16"
+RED="#dc322f"
 
 function clock() {
     DATETIME=$(date "+%a %b %d, %T")
@@ -12,9 +14,9 @@ function email() {
     inbox=$(notmuch count is:inbox)
     echo -n "Inbox: ${inbox}"
     unread=$(notmuch count is:unread)
-    if [[ $count -gt 0 ]]
+    if [[ $unread -gt 0 ]]
     then
-        echo -n "%{F${ORANGE}} (${unread}) ${F-}"
+        echo -n "%{F${ORANGE}} (${unread}) %{F-}"
     fi
 }
 
@@ -23,19 +25,72 @@ function focus_email() {
     bspc node biggest.tiled.local -f
 }
 
+function perc_color() {
+    percentage="$1"
+    if [[ $percentage -gt 50 ]]
+    then
+        echo $GREEN
+    elif [[ $percentage -gt 70 ]]
+    then
+        echo $ORANGE
+    elif [[ $percentage -gt 85 ]]
+    then
+        echo $RED
+    else
+        echo "-"
+    fi
+}
+
+function memory() {
+    total=$(free | awk '/Mem/ { printf($2) }')
+    used=$(free | awk '/Mem/ { printf($3) }')
+    buffers=$(free | awk '/Mem/ { printf($6) }')
+    cached=$(free | awk '/Mem/ { printf($7) }')
+    percentage=$(( (used - buffers - cached) * 100 / total ))
+    color=$(perc_color $percentage)
+    echo -n "%{F${color}} ${percentage}% %{F-}"
+}
+
+function cpu() {
+    user=$(cat /proc/stat | awk '/cpu / { print $2 }')
+    nice=$(cat /proc/stat | awk '/cpu / { print $3 }')
+    system=$(cat /proc/stat | awk '/cpu / { print $4 }')
+    idle=$(cat /proc/stat | awk '/cpu / { print $5 }')
+    iowait=$(cat /proc/stat | awk '/cpu / { print $6 }')
+
+    percentage=$(( (user + system) * 100 / (user + system + idle) ))
+
+    echo -n "%{$(perc_color ${percentage})} ${percentage}% %{F-}"
+}
+
+function io() {
+    user=$(cat /proc/stat | awk '/cpu / { print $2 }')
+    nice=$(cat /proc/stat | awk '/cpu / { print $3 }')
+    system=$(cat /proc/stat | awk '/cpu / { print $4 }')
+    idle=$(cat /proc/stat | awk '/cpu / { print $5 }')
+    iowait=$(cat /proc/stat | awk '/cpu / { print $6 }')
+
+    percentage=$(( (iowait) * 100 / (user + system + idle + iowait) ))
+
+    echo -n "%{$(perc_color ${percentage})} ${percentage}% %{F-}"
+}
+
 function run() {
     while true
     do
-        echo "%{A:focus_email:} $(email) %{A} %{r} $(clock) "
+        echo "%{A:focus_email:} $(email) %{A} %{c} %{A:conky:} CPU: $(cpu) MEM: $(memory) IO: $(io) %{A} %{r} $(clock) "
         sleep 1
     done
 }
-
 
 run | lemonbar -p -f terminus-12 -B "#002b36" -F "#839496" | while read line
 do
     case "$line" in
         focus_email)
             focus_email
+            ;;
+        conky)
+            conky
+            ;;
     esac
 done
