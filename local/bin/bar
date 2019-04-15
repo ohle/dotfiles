@@ -4,6 +4,18 @@ GREEN="#859900"
 ORANGE="#cb4b16"
 RED="#dc322f"
 
+PIPE="$(dirname "$0")/lemonbar.pipe"
+PID="$$"
+
+if [ "$(pgrep -cx lemonbar)" -gt 0 ]
+then
+    echo "Panel already running" >2
+    exit 1
+fi
+
+[ -e "$PIPE" ] && rm "$PIPE"
+mkfifo "$PIPE"
+
 function clock() {
     datetime=$(date "+%a %b %d, %H:%M")
     hour=$(date "+%H")
@@ -23,22 +35,20 @@ function clock() {
             color="$RED"
         fi
     fi
-    echo -n "%{F${color}} $datetime %{F-}"
+    echo "CLK %{F${color}} $datetime %{F-}"
 }
 
 
 function email() {
-    if command -v notmuch
+    if command -v notmuch >/dev/null
     then
         inbox=$(notmuch count is:inbox)
-        echo -n "Inbox: ${inbox}"
-        unread=$(notmuch count is:unread)
-        if [[ $unread -gt 0 ]]
+        unread_count=$(notmuch count is:unread)
+        if [[ $unread_count -gt 0 ]]
         then
-            echo -n "%{F${ORANGE}} (${unread}) %{F-}"
+            unread="%{F${ORANGE}} (${unread_count}) %{F-}"
         fi
-    else
-        echo -n "."
+        echo "EML Inbox: ${inbox}${unread}"
     fi
 }
 
@@ -48,7 +58,7 @@ function focus_email() {
 }
 
 function perc_color() {
-    percentage="$1"
+    percentage="${1%%.*}"
     if [[ $percentage -gt 50 ]]
     then
         echo $GREEN
@@ -77,24 +87,65 @@ function memory() {
         percentage=$(( (used - buffers - cached) * 100 / total ))
     fi
     color=$(perc_color $percentage)
-    echo -n "%{F${color}} ${percentage}% %{F-}"
+    echo "MEM %{F${color}} ${percentage}% %{F-}"
 }
 
 function cpu() {
-    percentage=$(top -bn1 | awk '/%Cpu\(s\)/ { print 100 - $8 }')
+    percentage=$(top -bn2 | awk '/%Cpu\(s\)/ { print 100 - $8 }')
 
-    echo -n "%{$(perc_color ${percentage})} ${percentage}% %{F-}"
+    echo "CPU %{F$(perc_color "${percentage}")} ${percentage}% %{F-}"
 }
 
-function run() {
-    while true
-    do
-        echo "%{A:focus_email:} $(email) %{A} %{c} %{A:conky:} CPU: $(cpu) MEM: $(memory) %{A} %{r} $(clock) "
-        sleep 5
-    done
+function windowtitle() {
+    xdotool getactivewindow getwindowname
 }
 
-run | lemonbar -p -f terminus-12 -B "#002b36" -F "#839496" | while read line
+function windowstate() {
+    state=$(bspc query -T --node | jq -r '.client.state')
+    if [[ $state == 'floating' ]]
+    then
+        echo " %{F${ORANGE}}f%{F-}"
+    fi
+}
+
+while :; do clock; sleep 10s; done > "$PIPE" &
+while :; do email; sleep 10s; done > "$PIPE" &
+while :; do memory; sleep 10s; done > "$PIPE" &
+while :; do cpu; sleep 10s; done > "$PIPE" &
+while :; do windowtitle; sleep 10s; done > "$PIPE" &
+bspc subscribe node_state node_focus  > "$PIPE" &
+
+while read -r event
+do
+    case "$event" in
+        CLK*)
+            clock="${event:4}"
+            ;;
+        EML*)
+            email="${event:4}"
+            ;;
+        MEM*)
+            memory="${event:4}"
+            ;;
+        CPU*)
+            cpu="${event:4}"
+            ;;
+        WTL*)
+            title="${event:4}"
+            ;;
+        node_focus*)
+            title=$(windowtitle)
+            state=$(windowstate)
+            ;;
+        node_state*)
+            title=$(windowtitle)
+            state=$(windowstate)
+            ;;
+        *)
+            unknown="%{F#ff0000}${event}%{F-}"
+    esac
+    echo "${clock} | %{A:focus_email:} ${email} %{A} %{c} ${title}${state} %{r} %{A:conky:} CPU: ${cpu} MEM: ${memory} %{A}"
+done < "$PIPE" | lemonbar -p -f terminus-12 -B "#002b36" -F "#839496" | while read line
 do
     case "$line" in
         focus_email)
@@ -105,3 +156,4 @@ do
             ;;
     esac
 done
+
