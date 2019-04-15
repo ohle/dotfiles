@@ -56,6 +56,7 @@ export PATH="$PATH:$HOME/anaconda3/bin"
 export PATH="$HOME/.pyenv/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
 export PATH="$HOME/local/bin:$PATH"
+export PATH="/snap/bin:$PATH"
 export PATH="/home/ohle/pebble-dev/pebble-sdk-4.5-linux64/bin/:$PATH"
 
 export MVN_HOME="$HOME/Apps/maven/"
