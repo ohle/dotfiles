@@ -108,7 +108,7 @@ function windowstate() {
     fi
 }
 
-BAT_PATTERN="Battery 0: ([A-Za-z]+), ([0-9]+)%, ([0-9][0-9]:[0-9][0-9]):[0-9][0-9] remaining"
+BAT_PATTERN="Battery 0: ([A-Za-z]+), ([0-9]+)%, ([0-9][0-9]:[0-9][0-9]):[0-9][0-9] (remaining|until charged)"
 function battery() {
     if command -v acpi >/dev/null
     then
