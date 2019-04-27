@@ -48,7 +48,7 @@ function email() {
         then
             unread="%{F${ORANGE}} (${unread_count}) %{F-}"
         fi
-        echo "EML Inbox: ${inbox}${unread}"
+        echo "EML \uf2b6 ${inbox}${unread}"
     fi
 }
 
@@ -104,7 +104,44 @@ function windowstate() {
     state=$(bspc query -T --node | jq -r '.client.state')
     if [[ $state == 'floating' ]]
     then
-        echo " %{F${ORANGE}}f%{F-}"
+        echo " %{F${ORANGE}}\uf1d8%{F-}"
+    fi
+}
+
+BAT_PATTERN="Battery 0: ([A-Za-z]+), ([0-9]+)%, ([0-9][0-9]:[0-9][0-9]):[0-9][0-9] remaining"
+function battery() {
+    if command -v acpi >/dev/null
+    then
+        batline=$(acpi --battery) 
+        if [[ $batline =~ $BAT_PATTERN ]]
+        then
+            state="${BASH_REMATCH[1]}"
+            percent="${BASH_REMATCH[2]}"
+            remaining="${BASH_REMATCH[3]}"
+            if [[ $percent -lt 25 ]]
+            then
+                symbol="\uf243"
+                color=$RED
+            elif [[ $percent -lt 50 ]]
+            then
+                symbol="\uf242"
+                color=$ORANGE
+            elif [[ $percent -lt 75 ]]
+            then
+                symbol="\uf241"
+                color=$GREEN
+            else
+                symbol="\uf240"
+                color="-"
+            fi
+            if [[ ${state} == "Charging" ]]
+            then
+                statesym="\uf5e7"
+            fi
+            echo "BAT %{F${color}}${symbol} ${statesym} ${remaining}${F-}"
+        else
+            echo "BAT PARSE ERROR"
+        fi
     fi
 }
 
@@ -112,7 +149,7 @@ while :; do clock; sleep 10s; done > "$PIPE" &
 while :; do email; sleep 10s; done > "$PIPE" &
 while :; do memory; sleep 10s; done > "$PIPE" &
 while :; do cpu; sleep 10s; done > "$PIPE" &
-while :; do windowtitle; sleep 10s; done > "$PIPE" &
+while :; do battery; sleep 10s; done > "$PIPE" &
 bspc subscribe node_state node_focus  > "$PIPE" &
 
 while read -r event
@@ -130,6 +167,9 @@ do
         CPU*)
             cpu="${event:4}"
             ;;
+        BAT*)
+            battery="${event:4}"
+            ;;
         WTL*)
             title="${event:4}"
             ;;
@@ -144,8 +184,8 @@ do
         *)
             unknown="%{F#ff0000}${event}%{F-}"
     esac
-    echo "${clock} | %{A:focus_email:} ${email} %{A} %{c} ${title}${state} %{r} %{A:conky:} CPU: ${cpu} MEM: ${memory} %{A}"
-done < "$PIPE" | lemonbar -p -f terminus-12 -B "#002b36" -F "#839496" | while read line
+    echo -e "${clock} | %{A:focus_email:} ${email} %{A} %{c} ${title}${state} %{r} %{A:conky:} \uf2db ${cpu} \uf538 ${memory} %{A} ${battery}"
+done < "$PIPE" | lemonbar -p -f terminus-12 -f "Font Awesome" -B "#002b36" -F "#839496" | while read line
 do
     case "$line" in
         focus_email)
