@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GREEN="#859900"
-ORANGE="#cb4b16"
+YELLOW="#b58900"
 RED="#dc322f"
 
 PIPE="$(dirname "$0")/lemonbar.pipe"
@@ -29,7 +29,7 @@ function clock() {
             color="$GREEN"
         elif [[ $hour -ge 17 ]] && [[ $minute -lt 15 ]]
         then
-            color="$ORANGE"
+            color="$YELLOW"
         elif [[ $hour -ge 17 ]]
         then
             color="$RED"
@@ -46,7 +46,7 @@ function email() {
         unread_count=$(notmuch count is:unread)
         if [[ $unread_count -gt 0 ]]
         then
-            unread="%{F${ORANGE}} (${unread_count}) %{F-}"
+            unread="%{F${YELLOW}} (${unread_count}) %{F-}"
         fi
         echo "EML \uf2b6 ${inbox}${unread}"
     fi
@@ -64,7 +64,7 @@ function perc_color() {
         echo $GREEN
     elif [[ $percentage -gt 70 ]]
     then
-        echo $ORANGE
+        echo $YELLOW
     elif [[ $percentage -gt 85 ]]
     then
         echo $RED
@@ -104,7 +104,7 @@ function windowstate() {
     state=$(bspc query -T --node | jq -r '.client.state')
     if [[ $state == 'floating' ]]
     then
-        echo " %{F${ORANGE}}\uf1d8%{F-}"
+        echo " %{F${YELLOW}}\uf1d8%{F-}"
     fi
 }
 
@@ -125,7 +125,7 @@ function battery() {
             elif [[ $percent -lt 50 ]]
             then
                 symbol="\uf242"
-                color=$ORANGE
+                color=$YELLOW
             elif [[ $percent -lt 75 ]]
             then
                 symbol="\uf241"
