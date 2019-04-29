@@ -4,7 +4,7 @@
 
 [core]
 	autocrlf = false
-	pager = diff-so-fancy | less --tabs=1,5 -R
+	; pager = diff-so-fancy | less --tabs=1,5 -R
 
 [alias]
 	l = log --graph --pretty='format:%C(red)%d%C(reset) %C(yellow)%h%C(reset) %ar %C(green)%aN%C(reset) %s'
@@ -28,3 +28,6 @@
 	user = ohle
 [push]
 	default = simple
+[user]
+	email = claussen@jpk.com
+	name = Ohle Claussen
