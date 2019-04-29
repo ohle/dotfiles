@@ -60,8 +60,7 @@ function focus_email() {
 }
 
 function focus_gpm() {
-    bspc desktop "^2:^8" -f
-    bspc node biggest.tiled.local -f
+    xdotool search --class "Google Play Music Desktop Player" windowactivate
 }
 
 function perc_color() {
