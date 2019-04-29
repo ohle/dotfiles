@@ -50,12 +50,17 @@ function email() {
         else
             unread=""
         fi
-        echo "EML \uf2b6 ${inbox}${unread}"
+        echo "EML \uf0e0 ${inbox}${unread}"
     fi
 }
 
 function focus_email() {
     bspc desktop "^2:^6" -f
+    bspc node biggest.tiled.local -f
+}
+
+function focus_gpm() {
+    bspc desktop "^2:^8" -f
     bspc node biggest.tiled.local -f
 }
 
@@ -147,11 +152,34 @@ function battery() {
     fi
 }
 
+GPMSTATUS="${HOME}/.config/Google Play Music Desktop Player/json_store/playback.json"
+function music() {
+    status="$(cat "${GPMSTATUS}")"
+    title="$(echo ${status} | jq -r '.song.title')"
+    artist="$(echo ${status} | jq -r '.song.artist')"
+    playing="$(echo ${status} | jq -r '.playing')"
+    played="$(echo ${status} | jq -r '.time.current')"
+    total="$(echo ${status} | jq -r '.time.total')"
+    minutes=$(( played / 60000 ))
+    seconds=$(( played / 1000 - (minutes * 60) ))
+    minutes_total=$(( total / 60000 ))
+    seconds_total=$(( total / 1000 - (minutes_total * 60) ))
+    if [[ $playing == "true" ]]
+    then
+        icon="\uf04b"
+    else
+        icon="\uf04c"
+    fi
+    echo -e "MUS %{A:play_pause:} ${icon} %{A} ${artist} - ${title} ${minutes}:${seconds}/${minutes_total}:${seconds_total}"
+}
+
+
 while :; do clock; sleep 10s; done > "$PIPE" &
 while :; do email; sleep 10s; done > "$PIPE" &
 while :; do memory; sleep 10s; done > "$PIPE" &
 while :; do cpu; sleep 10s; done > "$PIPE" &
 while :; do battery; sleep 10s; done > "$PIPE" &
+while inotifywait -e modify "$GPMSTATUS"; do music; done > "$PIPE" &
 bspc subscribe node_state node_focus  > "$PIPE" &
 
 while read -r event
@@ -175,6 +203,9 @@ do
         WTL*)
             title="${event:4}"
             ;;
+        MUS*)
+            music="${event:4}"
+            ;;
         node_focus*)
             title=$(windowtitle)
             state=$(windowstate)
@@ -186,12 +217,18 @@ do
         *)
             unknown="%{F#ff0000}${event}%{F-}"
     esac
-    echo -e "${clock} | %{A:focus_email:} ${email} %{A} %{c} ${title}${state} %{r} %{A:conky:} \uf2db ${cpu} \uf538 ${memory} %{A} ${battery}"
-done < "$PIPE" | lemonbar -p -f terminus-12 -f "Font Awesome" -B "#002b36" -F "#839496" | while read line
+    echo -e "${clock} %{A:focus_email:} ${email} %{A} %{c} ${title}${state} %{r} %{A:focus_gpm:} ${music} %{A} %{A:conky:} CPU ${cpu} MEM ${memory} %{A} ${battery}"
+done < "$PIPE" | lemonbar -p -f terminus-12 -f "FontAwesome" -B "#002b36" -F "#839496" | while read line
 do
     case "$line" in
         focus_email)
             focus_email
+            ;;
+        focus_gpm)
+            focus_gpm
+            ;;
+        play_pause)
+            xdotool key XF86AudioPlay
             ;;
         conky)
             conky
