@@ -116,6 +116,7 @@ function windowstate() {
 }
 
 BAT_PATTERN="Battery 0: ([A-Za-z]+), ([0-9]+)%, ([0-9][0-9]:[0-9][0-9]):[0-9][0-9] (remaining|until charged)"
+BAT_FULL="Battery 0: Full, 100%"
 function battery() {
     if command -v acpi >/dev/null
     then
@@ -145,7 +146,10 @@ function battery() {
             then
                 statesym="\uf5e7"
             fi
-            echo "BAT %{F${color}}${symbol} ${statesym} ${remaining}${F-}"
+            echo -e "BAT %{F${color}}${symbol} ${statesym} ${remaining}${F-}"
+        elif [[ $batline == ${BAT_FULL} ]]
+        then
+            echo -e "BAT \uf5e7"
         else
             echo "BAT PARSE ERROR"
         fi
