@@ -14,7 +14,7 @@ set jid = claussen@berlin.jpk.com
 
 # You can provide a server name if you want mcabber to connect
 # to a specific server.
-set server = jabber.berlin.jpk.com
+set server = jabber-bioafm.intra.brkr.corp
 
 # To automatically append the server to the JID in say_to, use this option:
 #set default_server = jabber.org
