@@ -156,6 +156,10 @@ function battery() {
 }
 
 GPMSTATUS="${HOME}/.config/Google Play Music Desktop Player/json_store/playback.json"
+if [ ! -f "${GPMSTATUS}" ]
+then
+    GPMSTATUS="${HOME}/snap/google-play-music-desktop-player/current/.config/Google Play Music Desktop Player/json_store/playback.json"
+fi
 function music() {
     status="$(cat "${GPMSTATUS}")"
     title="$(echo ${status} | jq -r '.song.title')"
