@@ -47,6 +47,8 @@ function email() {
         if [[ $unread_count -gt 0 ]]
         then
             unread="%{F${YELLOW}} (${unread_count}) %{F-}"
+        else
+            unread=""
         fi
         echo "EML \uf2b6 ${inbox}${unread}"
     fi
