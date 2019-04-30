@@ -180,6 +180,29 @@ function music() {
     echo -e "MUS %{A:play_pause:} ${icon} %{A} ${artist} - ${title} ${minutes}:${seconds}/${minutes_total}:${seconds_total}"
 }
 
+function monitor_window_title_int() {
+    winid="$1"
+    pkill xprop
+    xprop -spy -id "$winid" _NET_WM_NAME | while read line
+    do
+        title=$(echo "$line" | cut -d'=' -f2 | cut -c3- | rev | cut -c2- | rev)
+        echo "WTL $title"
+    done
+}
+
+function monitor_window_title() {
+    spypid=0
+    bspc subscribe node_focus |  while read 
+    do
+        winid=$(xdotool getactivewindow)
+        if [[ $spypid -gt 0 ]]
+        then
+            kill "$spypid"
+        fi
+        monitor_window_title_int "$winid" &
+        spypid=$!
+    done
+}
 
 while :; do clock; sleep 10s; done > "$PIPE" &
 while :; do email; sleep 10s; done > "$PIPE" &
@@ -188,6 +211,7 @@ while :; do cpu; sleep 10s; done > "$PIPE" &
 while :; do battery; sleep 10s; done > "$PIPE" &
 while inotifywait -e modify "$GPMSTATUS"; do music; done > "$PIPE" &
 bspc subscribe node_state node_focus  > "$PIPE" &
+monitor_window_title > "$PIPE" &
 
 while read -r event
 do
@@ -214,11 +238,9 @@ do
             music="${event:4}"
             ;;
         node_focus*)
-            title=$(windowtitle)
             state=$(windowstate)
             ;;
         node_state*)
-            title=$(windowtitle)
             state=$(windowstate)
             ;;
         *)
