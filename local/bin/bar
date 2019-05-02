@@ -204,11 +204,20 @@ function monitor_window_title() {
     done
 }
 
+OPEN_WEATHER_MAP_API_KEY=$(cat $HOME/.openweathermap-api-key)
+OPEN_WEATHER_MAP_URL="http://api.openweathermap.org/data/2.5/weather?APPID=${OPEN_WEATHER_MAP_API_KEY}&q=berlin,de"
+function weather() {
+    kelvin=$(curl "$OPEN_WEATHER_MAP_URL" | jq -r '.main.temp')
+    celsius=$(( ${kelvin%.*} - 273 ))
+    echo "WTR ${celsius}⁰C"
+}
+
 while :; do clock; sleep 10s; done > "$PIPE" &
 while :; do email; sleep 10s; done > "$PIPE" &
 while :; do memory; sleep 10s; done > "$PIPE" &
 while :; do cpu; sleep 10s; done > "$PIPE" &
 while :; do battery; sleep 10s; done > "$PIPE" &
+while :; do weather; sleep 5m; done >"$PIPE" &
 while inotifywait -e modify "$GPMSTATUS"; do music; done > "$PIPE" &
 bspc subscribe node_state node_focus  > "$PIPE" &
 monitor_window_title > "$PIPE" &
@@ -234,6 +243,9 @@ do
         WTL*)
             title="${event:4}"
             ;;
+        WTR*)
+            temp="${event:4}"
+            ;;
         MUS*)
             music="${event:4}"
             ;;
@@ -246,7 +258,7 @@ do
         *)
             unknown="%{F#ff0000}${event}%{F-}"
     esac
-    echo -e "${clock} %{A:focus_email:} ${email} %{A} %{c} ${title}${state} %{r} %{A4:vol_up:} %{A5:vol_down:} %{A:focus_gpm:} ${music} %{A} %{A} %{A} %{A:conky:} CPU ${cpu} MEM ${memory} %{A} ${battery}"
+    echo -e "${clock} ${temp} %{A:focus_email:} ${email} %{A} %{c} ${title}${state} %{r} %{A4:vol_up:} %{A5:vol_down:} %{A:focus_gpm:} ${music} %{A} %{A} %{A} %{A:conky:} CPU ${cpu} MEM ${memory} %{A} ${battery}"
 done < "$PIPE" | lemonbar -p -f terminus-12 -f "FontAwesome" -B "#002b36" -F "#839496" | while read line
 do
     case "$line" in
