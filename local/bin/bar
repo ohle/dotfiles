@@ -246,7 +246,7 @@ do
         *)
             unknown="%{F#ff0000}${event}%{F-}"
     esac
-    echo -e "${clock} %{A:focus_email:} ${email} %{A} %{c} ${title}${state} %{r} %{A:focus_gpm:} ${music} %{A} %{A:conky:} CPU ${cpu} MEM ${memory} %{A} ${battery}"
+    echo -e "${clock} %{A:focus_email:} ${email} %{A} %{c} ${title}${state} %{r} %{A4:vol_up:} %{A5:vol_down:} %{A:focus_gpm:} ${music} %{A} %{A} %{A} %{A:conky:} CPU ${cpu} MEM ${memory} %{A} ${battery}"
 done < "$PIPE" | lemonbar -p -f terminus-12 -f "FontAwesome" -B "#002b36" -F "#839496" | while read line
 do
     case "$line" in
@@ -255,6 +255,12 @@ do
             ;;
         focus_gpm)
             focus_gpm
+            ;;
+        vol_up)
+            amixer set 'Master' 5%+
+            ;;
+        vol_down)
+            amixer set 'Master' 5%-
             ;;
         play_pause)
             xdotool key XF86AudioPlay
