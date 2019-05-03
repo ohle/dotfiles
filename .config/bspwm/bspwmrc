@@ -16,6 +16,7 @@ bspc config gapless_monocle      true
 
 bspc rule -a Gimp desktop='^8' state=floating follow=on # move to desktop 8 and follow (i.e., switch view to 8 as well)
 bspc rule -a Conky state=floating center=on rectangle="242x1080+1168+13"
+bspc rule -a xpad state=floating
 bspc config external_rules_command "$(which bspwm-rules)"
 
 bar&
