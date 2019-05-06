@@ -263,7 +263,7 @@ do
             unknown="%{F#ff0000}${event}%{F-}"
     esac
     echo -e "${clock} ${temp} %{A:focus_email:} ${email} %{A} %{c} ${desktop}: ${title}${state} %{r} %{A4:vol_up:} %{A5:vol_down:} %{A:focus_gpm:} ${music} %{A} %{A} %{A} %{A:conky:} CPU ${cpu} MEM ${memory} %{A} ${battery}"
-done < "$PIPE" | lemonbar -p -f terminus-12 -f "FontAwesome" -B "#002b36" -F "#839496" | while read line
+done < "$PIPE" | lemonbar -p -f terminus-12 -f "FontAwesome" -f "nimbus-mono" -B "#002b36" -F "#839496" | while read line
 do
     case "$line" in
         focus_email)
