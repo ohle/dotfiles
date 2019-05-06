@@ -209,7 +209,7 @@ OPEN_WEATHER_MAP_URL="http://api.openweathermap.org/data/2.5/weather?APPID=${OPE
 function weather() {
     kelvin=$(curl "$OPEN_WEATHER_MAP_URL" | jq -r '.main.temp')
     celsius=$(( ${kelvin%.*} - 273 ))
-    echo "WTR ${celsius}⁰C"
+    echo "WTR ${celsius}°C"
 }
 
 while :; do clock; sleep 10s; done > "$PIPE" &
