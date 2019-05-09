@@ -4,6 +4,7 @@ function usage() {
     echo "USAGE: $0 [-i|-j|-r]"
     echo "  -i: Send IDEA to first monitor, JPK app to second monitor"
     echo "  -j: Send JPK app to first monitor, IDEA to second monitor"
+    echo "  -d: IDEA on first desktop of first monitor, second monitor shows its first desktop"
     echo "  -r: Restore layout: Send IDEA to first monitor and JPK to second if it exists"
     echo "  -m: Use a ROFI menu to select options"
     exit 1
@@ -71,10 +72,19 @@ function restore() {
     fi
 }
 
+function devmode() {
+    restore
+    bspc desktop "^2:^1" -f
+    bspc desktop "^1:^1" -f
+    bpsc node -f "$idea"
+}
+
+
 function rofi-menu() {
     read -d '' options <<FNORD
 IDEA first
 JPK first
+dev mode
 restore
 FNORD
     case $(echo "$options" | rofi -dmenu -P "arrange") in
@@ -83,6 +93,9 @@ FNORD
             ;;
         JPK*)
             jpk-first
+            ;;
+        dev*)
+            devmode
             ;;
         restore)
             restore
@@ -95,6 +108,9 @@ case "$1" in
         ;;
     -j)
         jpk-first
+        ;;
+    -d)
+        devmode
         ;;
     -r)
         restore
