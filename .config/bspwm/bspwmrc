@@ -20,4 +20,5 @@ bspc rule -a xpad state=floating
 bspc config external_rules_command "$(which bspwm-rules)"
 
 bar&
+stalonetray&
 compton&
