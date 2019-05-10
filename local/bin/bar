@@ -180,6 +180,11 @@ function music() {
     echo -e "MUS %{A:play_pause:} ${icon} %{A} ${artist} - ${title} ${minutes}:${seconds}/${minutes_total}:${seconds_total}"
 }
 
+function show_lyrics() {
+    echo "XXX"
+    cat "$GPMSTATUS" | jq -r .songLyrics | xmessage -file -
+}
+
 function monitor_window_title_int() {
     winid="$1"
     pkill xprop
@@ -262,7 +267,7 @@ do
         *)
             unknown="%{F#ff0000}${event}%{F-}"
     esac
-    echo -e "${clock} %{O120} ${temp} %{A:focus_email:} ${email} %{A} %{O} %{c} ${desktop}: ${title}${state} %{r} %{A4:vol_up:} %{A5:vol_down:} %{A:focus_gpm:} ${music} %{A} %{A} %{A} %{A:conky:} CPU ${cpu} MEM ${memory} %{A} ${battery}"
+    echo -e "${clock} %{O120} ${temp} %{A:focus_email:} ${email} %{A} %{O} %{c} ${desktop}: ${title}${state} %{r} %{A3:lyrics:} %{A4:vol_up:} %{A5:vol_down:} %{A:focus_gpm:} ${music} %{A} %{A} %{A} %{A} %{A:conky:} CPU ${cpu} MEM ${memory} %{A} ${battery}"
 done < "$PIPE" | lemonbar -g x24 -p -f terminus-12 -f "FontAwesome" -f "nimbus-mono" -B "#002b36" -F "#839496" | while read line
 do
     case "$line" in
@@ -280,6 +285,9 @@ do
             ;;
         play_pause)
             xdotool key XF86AudioPlay
+            ;;
+        lyrics)
+            show_lyrics
             ;;
         conky)
             conky
