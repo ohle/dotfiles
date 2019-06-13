@@ -36,10 +36,8 @@ function idea-first() {
         exit 2
     fi
     bspc node "$spm" -d "^2:^3" --follow
-    bspc node "$spm" -t fullscreen
     bspc desktop "^2:^3" -f
     bspc node "$idea" -d "^1:^1" --follow
-    bspc node "$idea" -t fullscreen
     bspc desktop "^1:^1" -f
 }
 
@@ -50,10 +48,8 @@ function jpk-first() {
         exit 2
     fi
     bspc node "$idea" -d "^2:^1" --follow
-    bspc node "$idea" -t fullscreen
     bspc desktop "^2:^1" -f
     bspc node "$spm" -d "^1:^3" --follow
-    bspc node "$spm" -t fullscreen
     bspc desktop "^1:^3" -f
 }
 
@@ -64,11 +60,9 @@ function restore() {
         exit 2
     fi
     bspc node "$idea" -d "^1:^1" --follow
-    bspc node "$idea" -t ~fullscreen
     if [[ -n $spm ]]
     then
         bspc node "$spm" -d "^1:^3"
-        bspc node "$spm" -t ~fullscreen
     fi
 }
 
