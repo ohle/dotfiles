@@ -148,3 +148,7 @@ local JPK_GIT_KEY=/platter/ohle/trusty-chroot/home/ohle/.vcsconfig/ssh/jpk-git-k
 source $HOME/.vim/bundle/vmux/plugin/setup_vmux.sh
 
 export PEBBLE_PHONE=192.168.0.10
+
+function c() {
+    cd ${XCWD}
+}

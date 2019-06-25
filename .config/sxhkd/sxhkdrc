@@ -3,8 +3,11 @@
 #
 
 # terminal emulator
+super + shift + Return
+    /home/claussen/.local/kitty.app/bin/kitty --directory $(xcwd) zsh
+
 super + Return
-	xfce4-terminal
+    XCWD=$(xcwd) /home/claussen/.local/kitty.app/bin/kitty zsh
 
 # program launcher
 super + @space
@@ -16,8 +19,8 @@ super + a
 super + shift + @space
     google
 
-super + p
-    pass-select
+super + shift + p
+    rofi-pass
 
 # make sxhkd reload its configuration files:
 super + Escape
