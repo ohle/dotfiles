@@ -62,6 +62,8 @@ export PATH="/home/ohle/pebble-dev/pebble-sdk-4.5-linux64/bin/:$PATH"
 export MVN_HOME="$HOME/Apps/maven/"
 # export MANPATH="/usr/local/man:$MANPATH"
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
@@ -103,8 +105,6 @@ export BROWSER="/usr/bin/firefox"
 # Mostly for dockerized-build-host
 
 [ -n "$TMUX" ] && export TERM=screen-256color
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Workaround for buggy gnome-terminal
 export NVIM_TUI_ENABLE_CURSOR_SHAPE=0
@@ -152,3 +152,7 @@ export PEBBLE_PHONE=192.168.0.10
 function c() {
     cd ${XCWD}
 }
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/claussen/.sdkman"
+[[ -s "/home/claussen/.sdkman/bin/sdkman-init.sh" ]] && source "/home/claussen/.sdkman/bin/sdkman-init.sh"
