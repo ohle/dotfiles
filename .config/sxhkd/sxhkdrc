@@ -7,7 +7,7 @@ super + shift + Return
     /home/claussen/.local/kitty.app/bin/kitty --directory $(xcwd) zsh 2>&1
 
 super + Return
-    XCWD=$($HOME/local/bin/xcwd) /home/claussen/.local/kitty.app/bin/kitty zsh
+    XCWD=$($HOME/local/bin/xcwd) $HOME/.local/kitty.app/bin/kitty zsh
 
 # program launcher
 super + space
