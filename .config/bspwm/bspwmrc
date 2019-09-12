@@ -18,6 +18,7 @@ bspc rule -a Gimp desktop='^8' state=floating follow=on # move to desktop 8 and 
 bspc rule -a Conky state=floating center=on rectangle="242x1080+1168+13"
 bspc rule -a xpad state=floating
 bspc rule -a Xmessage state=floating
+bspc rule -a zathura state=tiled
 bspc config external_rules_command "$(which bspwm-rules)"
 
 bar&
