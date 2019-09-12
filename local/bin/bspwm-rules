@@ -18,10 +18,13 @@ if [ "$(title)" = "scratchterm" ]
 then
     echo "$windowId" > /tmp/scratchid
     echo "sticky=on state=floating hidden=on"
-elif [[ $instance = "org-python-util-jython" ]] && [[ $(title) = JPK* ]]
+elif [[ $instance = "org-python-util-jython" || $instance = "com-intellij-rt-execution-application-AppMainV2" ]] && [[ $(title) = JPK* ]]
 then
     echo "desktop=^1:^3 follow=on"
 elif [[ $(role) = "xfce4-terminal-dropdown" ]]
+then
+    echo "state=floating"
+elif [[ $instance = "com-jpk-junicam-JUnicam" ]]
 then
     echo "state=floating"
 fi
