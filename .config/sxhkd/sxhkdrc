@@ -4,7 +4,7 @@
 
 # terminal emulator
 super + shift + Return
-    /home/claussen/.local/kitty.app/bin/kitty --directory $(xcwd) zsh
+    /home/claussen/.local/kitty.app/bin/kitty --directory $(xcwd) zsh 2>&1
 
 super + Return
     XCWD=$(xcwd) /home/claussen/.local/kitty.app/bin/kitty zsh
@@ -12,6 +12,12 @@ super + Return
 # program launcher
 super + @space
 	rofi -modi drun,run,window -show drun
+
+super + b
+    rofi -width 80 -filter 'Firefox ' -fuzzy -show window
+
+super + e
+    /home/claussen/local/bin/kitty --debug-gl
 
 super + a
     arrange -m
@@ -48,15 +54,15 @@ super + y
 
 # swap the current node and the biggest node
 super + g
-	bspc node -s biggest
+	bspc node -s biggest.local
 
 #
 # state/flags
 #
 
 # set the window state
-super + {t,shift + t,f}
-	bspc node -t {tiled,pseudo_tiled,floating}
+super + {t,shift + t,f, shift+f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 # set the node flags
 super + ctrl + {x,y,z}
