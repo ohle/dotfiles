@@ -63,6 +63,8 @@ export MVN_HOME="$HOME/Apps/maven/"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_COMPLETION_TRIGGER=''
+bindkey -M viins '^T' fzf-completion
 
 source $ZSH/oh-my-zsh.sh
 
