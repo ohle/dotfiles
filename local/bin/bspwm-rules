@@ -1,10 +1,8 @@
 #!/bin/bash
 windowId="$1"
 class="$2"
-instance="$2"
-monitor="$3"
-desktop="$4"
-node="$5"
+instance="$3"
+intermediate_consequences="$3"
 
 function title() {
     xprop -id "$windowId" WM_NAME | sed -e 's/[^=]*= \+"\(.*\)"$/\1/'
@@ -14,17 +12,21 @@ function role() {
     xprop -id "$windowId" WM_WINDOW_ROLE | sed -e 's/[^=]*= \+"\(.*\)"$/\1/'
 }
 
+function focused_desktop() {
+    bspc query -D -d focused --names
+}
+
 if [ "$(title)" = "scratchterm" ]
 then
     echo "$windowId" > /tmp/scratchid
     echo "sticky=on state=floating hidden=on"
-elif [[ $instance = "org-python-util-jython" || $instance = "com-intellij-rt-execution-application-AppMainV2" ]] && [[ $(title) = JPK* ]]
+elif [[ $class = "org-python-util-jython" || $class = "com-intellij-rt-execution-application-AppMainV2" ]] && [[ $(title) = JPK* ]]
 then
     echo "desktop=^1:^3 follow=on"
 elif [[ $(role) = "xfce4-terminal-dropdown" ]]
 then
     echo "state=floating"
-elif [[ $instance = "com-jpk-junicam-JUnicam" ]]
+elif [[ $class = "com-jpk-junicam-JUnicam" ]]
 then
     echo "state=floating"
 fi
