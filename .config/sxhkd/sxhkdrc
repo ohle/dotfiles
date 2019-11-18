@@ -7,10 +7,10 @@ super + shift + Return
     /home/claussen/.local/kitty.app/bin/kitty --directory $(xcwd) zsh 2>&1
 
 super + Return
-    XCWD=$(xcwd) /home/claussen/.local/kitty.app/bin/kitty zsh
+    XCWD=$($HOME/local/bin/xcwd) /home/claussen/.local/kitty.app/bin/kitty zsh
 
 # program launcher
-super + @space
+super + space
 	rofi -modi drun,run,window -show drun
 
 super + b
@@ -20,7 +20,7 @@ super + e
     /home/claussen/local/bin/kitty --debug-gl
 
 super + a
-    arrange -m
+    $HOME/local/bin/arrange -m
 
 super + shift + @space
     google
