@@ -14,12 +14,14 @@ bspc config split_ratio          0.52
 bspc config borderless_monocle   true
 
 bspc rule -a Gimp desktop='^8' state=floating follow=on # move to desktop 8 and follow (i.e., switch view to 8 as well)
-bspc rule -a Conky state=floating center=on rectangle="242x1080+1168+13"
 bspc rule -a xpad state=floating
 bspc rule -a Xmessage state=floating
 bspc rule -a zathura state=tiled
-bspc config external_rules_command "$(which bspwm-rules)"
+bspc config external_rules_command "$HOME/local/bin/bspwm-rules"
 
-bar&
-stalonetray&
+$HOME/local/bin/bar&
 compton&
+sleep 2
+stalonetray&
+sleep 2
+$HOME/local/bin/multiload-ng-systray&
