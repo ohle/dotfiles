@@ -141,7 +141,7 @@ fi
 
 # Use bash completion functions
 autoload -U +X bashcompinit && bashcompinit
-[ -e /etc/bash_completion.d/jpk-completion ] && source /etc/bash_completion.d/jpk-completion
+[ -e /usr/share/bash-completion/completions/spm ] && source /usr/share/bash-completion/completions/spm
 
 # Borg backup
 export BORG_REPO=/media/timecapsule/borg-backups/
