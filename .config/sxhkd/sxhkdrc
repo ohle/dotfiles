@@ -156,3 +156,6 @@ super + {Left,Down,Up,Right}
 # scratch terminal
 super + s
     xfce4-terminal --drop-down
+
+super + shift + s
+    xscreensaver-command -lock
