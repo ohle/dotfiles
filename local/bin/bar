@@ -2,7 +2,10 @@
 
 GREEN="#859900"
 YELLOW="#b58900"
+ORANGE="#cb4b16"
 RED="#dc322f"
+DARKFG="#657b83"
+
 
 PIPE="$(dirname "$0")/lemonbar.pipe"
 PID="$$"
@@ -16,26 +19,81 @@ fi
 [ -e "$PIPE" ] && rm "$PIPE"
 mkfifo "$PIPE"
 
+function calendar() {
+    date=$(date "+%a %b %d")
+    free_icon="\uf133"
+    busy_icon="\uf274"
+    events=$(khal list now tomorrow | tail -n +2)
+
+    if [[ -n $events ]]
+    then
+        icon=$busy_icon
+        eventcount=$(echo "$events" | wc -l)
+
+        next_start=$(khal list --format "{start-time}" now tomorrow | grep '[0-9]' | tail -n +2 | head -1 | cut -d'-' -f1)
+        next_start_seconds=$(date -d "$next_start" +%s)
+        now=$(date +%s)
+        minutes_left=$(( (next_start_seconds - now) / 60 ))
+
+        if [[ $minutes_left -lt 5 ]]
+        then
+            background=$RED
+            color=$DARKFG
+        elif [[ $minutes_left -lt 15 ]]
+        then
+            background=$ORANGE
+            color=$DARKFG
+        elif [[ $minutes_left -lt 30 ]]
+        then
+            background=$GREEN
+            color=$DARKFG
+        else
+            background="-"
+            color="-"
+        fi
+    else
+        icon=$free_icon
+        eventcount=""
+        background="-"
+    fi
+    echo "CAL %{B${background}}%{F${color}}${icon} ${eventcount}%{F-} %{B-} ${date}"
+}
+
 function clock() {
-    datetime=$(date "+%a %b %d, %H:%M")
-    hour=$(date "+%H")
+    # datetime=$(date "+%a %b %d, %H:%M")
+    datetime=$(date "+%H:%M")
+    hour=$(date "+%k")
     minute=$(date "+%M")
 
     color="-"
-    if [[ $(hostname) = "ohle" ]]
+    if [[ $(hostname) = "ohle-bioafm" ]]
     then
-        if [[ $hour = 16 ]] && [[ $minute -gt 45 ]]
+        if khal list now tomorrow | grep -q "abholen"
         then
-            color="$GREEN"
-        elif [[ $hour -ge 17 ]] && [[ $minute -lt 15 ]]
-        then
-            color="$YELLOW"
-        elif [[ $hour -ge 17 ]]
-        then
-            color="$RED"
+            if [[ $hour = 15 ]] && [[ $minute -gt 20 ]]
+            then
+                color="$GREEN"
+            elif [[ $hour = 15 ]] && [[ $minute -gt 30 ]]
+            then
+                color="$YELLOW"
+            elif [[ $hour = 15 ]] && [[ $minute -gt 45 ]]
+            then
+                color="$RED"
+            fi
+        else
+            if [[ $hour = 16 ]] && [[ $minute -gt 15 ]]
+            then
+                color="$GREEN"
+            elif [[ $hour = 16 ]] && [[ $minute -gt 40 ]]
+            then
+                color="$YELLOW"
+            elif [[ $hour -ge 17 ]]
+            then
+                color="$RED"
+            fi
         fi
     fi
-    echo "CLK %{F${color}} $datetime %{F-}"
+    echo "CLK %{F${color}}\uf017 $datetime %{F-}"
 }
 
 
