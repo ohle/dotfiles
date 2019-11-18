@@ -26,7 +26,25 @@ super + shift + @space
     google
 
 super + shift + p
-    rofi-pass
+    /home/claussen/local/bin/rofi-pass
+
+super + shift + m
+    mpc toggle
+
+super + minus
+    mpc volume -5 && notify-send -t 500 "$(mpc volume)"
+
+super + equal
+    mpc volume +5 && notify-send -t 500 "$(mpc volume)"
+
+super + BackSpace
+    mpc toggle
+
+super + backslash
+    notify-send -t 2000 "$(mpc status)"
+
+super + shift + backslash
+    notify-send -t 5000 "$(mpc playlist)"
 
 # make sxhkd reload its configuration files:
 super + Escape
