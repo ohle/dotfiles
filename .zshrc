@@ -161,4 +161,5 @@ function c() {
 export SDKMAN_DIR="/home/claussen/.sdkman"
 [[ -s "/home/claussen/.sdkman/bin/sdkman-init.sh" ]] && source "/home/claussen/.sdkman/bin/sdkman-init.sh"
 
-export PYTHONWARNINGS="ignore:Unverified HTTPS request"
+source $GOPATH/src/github.com/sachaos/todoist/todoist_functions_fzf.sh
+#source /home/claussen/third-party/forgit/forgit.plugin.zsh
