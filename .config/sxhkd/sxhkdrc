@@ -35,16 +35,22 @@ super + shift + m
     mpc toggle
 
 super + minus
-    mpc volume -5 && notify-send -t 500 "$(mpc volume)"
+    $HOME/local/bin/volume -1
 
 super + equal
-    mpc volume +5 && notify-send -t 500 "$(mpc volume)"
+    $HOME/local/bin/volume +1
+
+super + alt + bracketleft
+    mpc prev && $HOME/local/bin/playback
+
+super + alt + bracketright
+    mpc next && $HOME/local/bin/playback
 
 super + BackSpace
     mpc toggle
 
 super + backslash
-    notify-send -t 2000 "$(mpc status)"
+    $HOME/local/bin/playback
 
 super + shift + backslash
     notify-send -t 5000 "$(mpc playlist)"
