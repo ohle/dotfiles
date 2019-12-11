@@ -19,9 +19,7 @@ bspc rule -a Xmessage state=floating
 bspc rule -a zathura state=tiled
 bspc config external_rules_command "$HOME/local/bin/bspwm-rules"
 
-$HOME/local/bin/bar&
+/usr/bin/tint2&
 compton&
-sleep 2
-stalonetray&
 sleep 2
 $HOME/local/bin/multiload-ng-systray&
