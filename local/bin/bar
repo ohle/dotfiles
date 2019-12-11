@@ -23,7 +23,7 @@ function calendar() {
     date=$(date "+%a %b %d")
     free_icon="\uf133"
     busy_icon="\uf274"
-    events=$(khal list now tomorrow | tail -n +2)
+    events=$(khal list --format "{start-time}" now tomorrow | tail -n +2 | grep '[0-9]')
 
     if [[ -n $events ]]
     then
@@ -68,29 +68,24 @@ function clock() {
     color="-"
     if [[ $(hostname) = "ohle-bioafm" ]]
     then
+        pickup_days=$(khal list --format "{title}" $(date -dmonday +%Y-%m-%d) sunday | grep "abholen" | wc -l )
+        time_to_leave=$(date -d "16:30" +%s)
         if khal list now tomorrow | grep -q "abholen"
         then
-            if [[ $hour = 15 ]] && [[ $minute -gt 20 ]]
-            then
-                color="$GREEN"
-            elif [[ $hour = 15 ]] && [[ $minute -gt 30 ]]
-            then
-                color="$YELLOW"
-            elif [[ $hour = 15 ]] && [[ $minute -gt 45 ]]
-            then
-                color="$RED"
-            fi
+            time_to_leave=$(date -d "15:45" +%s)
         else
-            if [[ $hour = 16 ]] && [[ $minute -gt 15 ]]
-            then
-                color="$GREEN"
-            elif [[ $hour = 16 ]] && [[ $minute -gt 40 ]]
-            then
-                color="$YELLOW"
-            elif [[ $hour -ge 17 ]]
-            then
-                color="$RED"
-            fi
+            time_to_leave=$(( time_to_leave + 30 * 60 * pickup_days ))
+        fi
+        minutes_left=$(( (time_to_leave - $(date +%s)) / 60 ))
+        if [[ $minutes_left -lt 30 ]]
+        then
+            color="$GREEN"
+        elif [[ $minutes_left -lt 15 ]]
+        then
+            color="$YELLOW"
+        elif [[ $minutes_left -lt 0 ]]
+        then
+            color="$RED"
         fi
     fi
     echo "CLK %{F${color}}\uf017 $datetime %{F-}"
@@ -117,10 +112,6 @@ function focus_email() {
     bspc node biggest.tiled.local -f
 }
 
-function focus_gpm() {
-    xdotool search --class "Google Play Music Desktop Player" windowactivate
-}
-
 function perc_color() {
     percentage="${1%%.*}"
     if [[ $percentage -gt 50 ]]
@@ -137,29 +128,6 @@ function perc_color() {
     fi
 }
 
-function memory() {
-    freever=$(free --version | awk '{ print $4 }' | awk -F. '{ print $3 }')
-
-    total=$(free | awk '/Mem/ { printf($2) }')
-    used=$(free | awk '/Mem/ { printf($3) }')
-    buffers=$(free | awk '/Mem/ { printf($6) }')
-    cached=$(free | awk '/Mem/ { printf($7) }')
-    if [[ $freever -ge 12 ]]
-    then
-        percentage=$(( used * 100 / total ))
-    else
-        percentage=$(( (used - buffers - cached) * 100 / total ))
-    fi
-    color=$(perc_color $percentage)
-    echo "MEM %{F${color}} ${percentage}% %{F-}"
-}
-
-function cpu() {
-    percentage=$(top -bn2 | awk '/%Cpu\(s\)/ { print 100 - $8 }')
-
-    echo "CPU %{F$(perc_color "${percentage}")} ${percentage}% %{F-}"
-}
-
 function windowtitle() {
     xdotool getactivewindow getwindowname
 }
@@ -172,75 +140,29 @@ function windowstate() {
     fi
 }
 
-BAT_PATTERN="Battery 0: ([A-Za-z]+), ([0-9]+)%, ([0-9][0-9]:[0-9][0-9]):[0-9][0-9] (remaining|until charged)"
-BAT_FULL="Battery 0: Full, 100%"
-function battery() {
-    if command -v acpi >/dev/null
+function music() {
+    if [[ $(mpc current) ]]
     then
-        batline=$(acpi --battery) 
-        if [[ $batline =~ $BAT_PATTERN ]]
+        if mpc status | grep -q paused
         then
-            state="${BASH_REMATCH[1]}"
-            percent="${BASH_REMATCH[2]}"
-            remaining="${BASH_REMATCH[3]}"
-            if [[ $percent -lt 25 ]]
-            then
-                symbol="\uf243"
-                color=$RED
-            elif [[ $percent -lt 50 ]]
-            then
-                symbol="\uf242"
-                color=$YELLOW
-            elif [[ $percent -lt 75 ]]
-            then
-                symbol="\uf241"
-                color=$GREEN
-            else
-                symbol="\uf240"
-                color="-"
-            fi
-            if [[ ${state} == "Charging" ]]
-            then
-                statesym="\uf5e7"
-            fi
-            echo -e "BAT %{F${color}}${symbol} ${statesym} ${remaining}${F-}"
-        elif [[ $batline == ${BAT_FULL} ]]
-        then
-            echo -e "BAT \uf5e7"
+            ompd="\uf04c $(mpc current)"
         else
-            echo "BAT PARSE ERROR"
+            ompd="\uf001 $(mpc current)"
         fi
     fi
-}
 
-GPMSTATUS="${HOME}/.config/Google Play Music Desktop Player/json_store/playback.json"
-if [ ! -f "${GPMSTATUS}" ]
-then
-    GPMSTATUS="${HOME}/snap/google-play-music-desktop-player/current/.config/Google Play Music Desktop Player/json_store/playback.json"
-fi
-function music() {
-    status="$(cat "${GPMSTATUS}")"
-    title="$(echo ${status} | jq -r '.song.title')"
-    artist="$(echo ${status} | jq -r '.song.artist')"
-    playing="$(echo ${status} | jq -r '.playing')"
-    played="$(echo ${status} | jq -r '.time.current')"
-    total="$(echo ${status} | jq -r '.time.total')"
-    minutes=$(( played / 60000 ))
-    seconds=$(( played / 1000 - (minutes * 60) ))
-    minutes_total=$(( total / 60000 ))
-    seconds_total=$(( total / 1000 - (minutes_total * 60) ))
-    if [[ $playing == "true" ]]
+    title="$(mpc current)"
+    status="$(mpc status | tail -2 | head -1)"
+    played="$(echo ${status} | awk '{ print $3 }')"
+
+    if echo "$status" | grep -q 'playing'
     then
         icon="\uf04b"
     else
         icon="\uf04c"
     fi
-    echo -e "MUS %{A:play_pause:} ${icon} %{A} ${artist} - ${title} ${minutes}:${seconds}/${minutes_total}:${seconds_total}"
-}
-
-function show_lyrics() {
-    echo "XXX"
-    cat "$GPMSTATUS" | jq -r .songLyrics | xmessage -file -
+    echo -e "MUS %{A:play_pause:} ${icon} %{A}" 
+    echo "foo"
 }
 
 function monitor_window_title_int() {
@@ -273,14 +195,12 @@ function weather() {
 }
 
 while :; do clock; sleep 10s; done > "$PIPE" &
+while :; do calendar; sleep 10s; done > "$PIPE" &
 while :; do email; sleep 10s; done > "$PIPE" &
-while :; do memory; sleep 10s; done > "$PIPE" &
-while :; do cpu; sleep 10s; done > "$PIPE" &
-while :; do battery; sleep 10s; done > "$PIPE" &
-while :; do weather; sleep 5m; done >"$PIPE" &
-while inotifywait -e modify "$GPMSTATUS"; do music; done > "$PIPE" &
-bspc subscribe node_state node_focus  > "$PIPE" &
-bspc subscribe desktop_focus >"$PIPE" &
+#while :; do weather; sleep 5m; done >"$PIPE" &
+while :; do music; sleep 10s; done > "$PIPE" &
+#bspc subscribe node_state node_focus  > "$PIPE" &
+#bspc subscribe desktop_focus >"$PIPE" &
 monitor_window_title > "$PIPE" &
 
 while read -r event
@@ -289,17 +209,11 @@ do
         CLK*)
             clock="${event:4}"
             ;;
+        CAL*)
+            calendar="${event:4}"
+            ;;
         EML*)
             email="${event:4}"
-            ;;
-        MEM*)
-            memory="${event:4}"
-            ;;
-        CPU*)
-            cpu="${event:4}"
-            ;;
-        BAT*)
-            battery="${event:4}"
             ;;
         WTL*)
             title="${event:4}"
@@ -322,15 +236,15 @@ do
         *)
             unknown="%{F#ff0000}${event}%{F-}"
     esac
-    echo -e "${clock} %{O120} ${temp} %{A:focus_email:} ${email} %{A} %{O} %{c} ${desktop}: ${title}${state} %{r} %{A3:lyrics:} %{A4:vol_up:} %{A5:vol_down:} %{A:focus_gpm:} ${music} %{A} %{A} %{A} %{A} %{A:conky:} CPU ${cpu} MEM ${memory} %{A} ${battery}"
-done < "$PIPE" | lemonbar -g x24 -p -f terminus-12 -f "EmojiOne Color" -B "#002b36" -F "#839496" | while read line
+	    echo -e "${clock} %{A:agenda:} ${calendar} %{A} ${temp} %{A:focus_email:} ${email} %{A} %{A4:vol_up:} %{A5:vol_down:} ${music} %{A} %{A} %{O} %{c} ${desktop}: ${title}${state}"
+done < "$PIPE" | lemonbar -g x24 -p -f terminus-12 -f "FontAwesome" -f "Emoji One" -B "#002b36" -F "#839496" | while read line
 do
     case "$line" in
+        agenda)
+            notify-send "$(khal list now tomorrow)"
+            ;;
         focus_email)
             focus_email
-            ;;
-        focus_gpm)
-            focus_gpm
             ;;
         vol_up)
             amixer set 'Master' 5%+
@@ -339,10 +253,7 @@ do
             amixer set 'Master' 5%-
             ;;
         play_pause)
-            xdotool key XF86AudioPlay
-            ;;
-        lyrics)
-            show_lyrics
+            mpc toggle
             ;;
         conky)
             conky
