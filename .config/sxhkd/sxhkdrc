@@ -28,6 +28,9 @@ super + shift + @space
 super + shift + p
     /home/claussen/local/bin/rofi-pass
 
+super + t
+    task add "$(rofi -dmenu -l 0 -p 'Add Task')"
+
 super + shift + m
     mpc toggle
 
