@@ -28,7 +28,7 @@ super + shift + @space
 super + shift + p
     /home/claussen/local/bin/rofi-pass
 
-super + t
+super + alt + t
     task add "$(rofi -dmenu -l 0 -p 'Add Task')"
 
 super + shift + m
