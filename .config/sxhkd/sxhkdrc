@@ -4,7 +4,7 @@
 
 # terminal emulator
 super + shift + Return
-    /home/claussen/.local/kitty.app/bin/kitty --directory $(xcwd) zsh 2>&1
+    ${HOME}/.local/kitty.app/bin/kitty --directory $(xcwd) zsh 2>&1
 
 super + Return
     XCWD=$($HOME/local/bin/xcwd) $HOME/.local/kitty.app/bin/kitty zsh
@@ -16,9 +16,6 @@ super + space
 super + b
     rofi -width 80 -filter 'Firefox ' -fuzzy -show window
 
-super + e
-    /home/claussen/local/bin/kitty --debug-gl
-
 super + a
     $HOME/local/bin/arrange -m
 
@@ -26,7 +23,7 @@ super + shift + @space
     google
 
 super + shift + p
-    /home/claussen/local/bin/rofi-pass
+    ${HOME}/local/bin/rofi-pass
 
 super + alt + t
     task add "$(rofi -dmenu -l 0 -p 'Add Task')"
