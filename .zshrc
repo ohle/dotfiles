@@ -163,3 +163,6 @@ export SDKMAN_DIR="/home/claussen/.sdkman"
 
 source $GOPATH/src/github.com/sachaos/todoist/todoist_functions_fzf.sh
 #source /home/claussen/third-party/forgit/forgit.plugin.zsh
+eval $(starship init zsh)
+
+[ -s "/home/claussen/.scm_breeze/scm_breeze.sh" ] && source "/home/claussen/.scm_breeze/scm_breeze.sh"
