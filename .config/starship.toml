@@ -1,0 +1,16 @@
+[git_status]
+conflicted_count.enabled = true
+modified_count.enabled = true
+staged_count.enabled = true
+
+[java]
+disabled = true
+
+[env_var]
+variable = "JPK_PROMPT"
+style = "dimmed blue"
+
+[directory]
+truncation_length=8
+truncate_to_repo=true
+use_logical_path=false
