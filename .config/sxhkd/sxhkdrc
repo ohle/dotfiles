@@ -20,7 +20,7 @@ super + a
     $HOME/local/bin/arrange -m
 
 super + shift + @space
-    google
+    interrobang
 
 super + shift + p
     ${HOME}/local/bin/rofi-pass
