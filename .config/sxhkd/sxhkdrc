@@ -35,10 +35,16 @@ super + shift + m
     mpc toggle
 
 super + minus
-    $HOME/local/bin/volume -1
+    amixer -D pulse sset Master 5%-
 
 super + equal
-    $HOME/local/bin/volume +1
+    amixer -D pulse sset Master 5%+
+
+super + shift + minus
+    amixer -D pulse sset Master 1%-
+
+super + shift + equal
+    amixer -D pulse sset Master 1%+
 
 super + alt + bracketleft
     mpc prev && $HOME/local/bin/playback
