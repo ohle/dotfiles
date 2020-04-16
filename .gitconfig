@@ -4,6 +4,7 @@
 
 [core]
 	autocrlf = false
+	compression = 0
 	; pager = diff-so-fancy | less --tabs=1,5 -R
 
 [alias]
