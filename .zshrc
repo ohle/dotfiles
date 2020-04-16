@@ -166,3 +166,6 @@ source $GOPATH/src/github.com/sachaos/todoist/todoist_functions_fzf.sh
 eval $(starship init zsh)
 
 [ -s "/home/claussen/.scm_breeze/scm_breeze.sh" ] && source "/home/claussen/.scm_breeze/scm_breeze.sh"
+
+source /home/claussen/.config/broot/launcher/bash/br
+
