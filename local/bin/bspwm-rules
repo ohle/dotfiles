@@ -26,7 +26,4 @@ then
 elif [[ $(role) = "xfce4-terminal-dropdown" ]]
 then
     echo "state=floating"
-elif [[ $instance = "com-jpk-junicam-JUnicam" ]]
-then
-    echo "state=floating"
 fi
