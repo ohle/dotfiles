@@ -5,3 +5,6 @@ bind generic + !git commit --amend
 
 bind generic y !@bash -c "echo -n $(git rev-parse --short %(commit)) | xclip" # copy hash
 bind generic s :view-stash
+
+color cursor black green 
+color status white blue 
