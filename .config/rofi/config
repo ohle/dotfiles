@@ -23,13 +23,13 @@
 ! "Whether to load and show icons" Set from: Default
 ! rofi.show-icons:                     false
 ! "Terminal to use" Set from: Default
-! rofi.terminal:                       rofi-sensible-terminal
+rofi.terminal:                       /home/ohle/.local/kitty.app/bin/kitty
 ! "Ssh client to use" Set from: Default
 ! rofi.ssh-client:                     ssh
 ! "Ssh command to execute" Set from: Default
 ! rofi.ssh-command:                    {terminal} -e {ssh-client} {host}
 ! "Run command to execute" Set from: Default
-! rofi.run-command:                    {cmd}
+rofi.run-command:                    zsh -c "{cmd}"
 ! "Command to get extra run targets" Set from: Default
 ! rofi.run-list-command:               
 ! "Run command to execute that runs in shell" Set from: Default
