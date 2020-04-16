@@ -173,3 +173,5 @@ bindkey -M viins "^q" push-line-or-edit
 bindkey -M vicmd "q" push-line-or-edit
 bindkey -M viins "^A" accept-and-hold
 bindkey -M viins "^H" run-help
+
+[ -s "/home/ohle/.scm_breeze/scm_breeze.sh" ] && source "/home/ohle/.scm_breeze/scm_breeze.sh"
