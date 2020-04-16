@@ -169,3 +169,8 @@ eval $(starship init zsh)
 
 source /home/claussen/.config/broot/launcher/bash/br
 
+bindkey -M viins "^[^M" self-insert-unmeta # alt-enter for multiline linebreak instead of execute 
+bindkey -M viins "^q" push-line-or-edit
+bindkey -M vicmd "q" push-line-or-edit
+bindkey -M viins "^A" accept-and-hold
+bindkey -M viins "^H" run-help
