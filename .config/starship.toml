@@ -14,3 +14,4 @@ style = "dimmed blue"
 truncation_length=8
 truncate_to_repo=true
 use_logical_path=false
+fish_style_pwd_dir_length=1
