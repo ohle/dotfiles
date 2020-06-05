@@ -1,0 +1,10 @@
+remove-empty =  true
+append-when-occupied = true
+watch-config = true
+
+renamers = [ "classified", "client", "numeric" ]
+
+[[ names.classified ]]
+  "%{T3}%{T-}" = [ "Firefox", "Chromium" ]
+  "%{T3}%{T-}" = [ "jetbrains-idea-ce", "code" ]
+  "%{T3}%{T-}" = [ "Microsoft Teams - Preview" ]
