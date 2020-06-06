@@ -26,3 +26,4 @@ polybar primary&
 polybar secondary&
 pasystray&
 $HOME/gocode/bin/btops&
+$HOME/local/bin/rename-desktops.bash
