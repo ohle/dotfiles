@@ -82,8 +82,7 @@ function scan_and_rename() {
         fi
     done
 }
-
-bspc subscribe node | while read line
-do
-    scan_and_rename
-done
+bspc subscribe monitor_add monitor_remove monitor_swap desktop_add desktop_remove desktop_swap desktop_transfer node_add node_remove node_swap node_transfer | \
+    while read -r line; do	# trigger on any bspwm event
+        scan_and_rename
+    done
