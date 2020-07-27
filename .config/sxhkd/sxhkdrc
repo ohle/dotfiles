@@ -2,6 +2,10 @@
 # wm independent hotkeys
 #
 
+# Paste from primary selection
+shift + Insert
+    sh -c 'xsel | xvkbd -xsendevent -file - 2>/dev/null'
+    
 # terminal emulator
 super + shift + Return
     ${HOME}/.local/kitty.app/bin/kitty --directory $(xcwd) zsh 2>&1
