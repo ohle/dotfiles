@@ -24,7 +24,13 @@ function class() {
 
 function biggestwindow() {
     max=0
-    for window in $(bspc query -N -n .window -d $1)
+    windows=$(bspc query -N -n .window -d $1)
+    if [ $? -ne 0 ]
+    then
+        echo ""
+        return
+    fi
+    for window in $windows
     do
         A=$(area $window)
         if [[ A -gt max ]]
@@ -78,11 +84,18 @@ function scan_and_rename() {
                 "kitty")
                     rename "$desktop" "%{T3} %{T-} $(kitty_rename $window)"
                     ;;
+                "Spotify")
+                    rename "$desktop" "%{T3}%{T-}"
+                    ;;
+                *)
+                    rename "$desktop" $(title $window)
+                    ;;
             esac
         fi
     done
 }
-bspc subscribe monitor_add monitor_remove monitor_swap desktop_add desktop_remove desktop_swap desktop_transfer node_add node_remove node_swap node_transfer | \
+
+bspc subscribe monitor_add monitor_remove monitor_swap desktop_add desktop_remove desktop_swap desktop_transfer node | \
     while read -r line; do	# trigger on any bspwm event
         scan_and_rename
     done
