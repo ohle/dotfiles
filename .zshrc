@@ -176,3 +176,6 @@ bindkey -M viins "^H" run-help
 [ -s "/home/ohle/.scm_breeze/scm_breeze.sh" ] && source "/home/ohle/.scm_breeze/scm_breeze.sh"
 
 [[ -s "/etc/grc.zsh" ]] && source /etc/grc.zsh
+
+# Make less simply dump and exit if output fits on one screen
+export LESS="-X -F $LESS"
