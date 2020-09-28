@@ -6,6 +6,9 @@
 shift + Insert
     sh -c 'xsel | xvkbd -xsendevent -file - 2>/dev/null'
     
+alt + Home
+    spotifycli --playpause
+
 # terminal emulator
 super + shift + Return
     ${HOME}/.local/kitty.app/bin/kitty --directory $(xcwd) zsh 2>&1
@@ -47,20 +50,8 @@ super + shift + minus
 super + shift + equal
     amixer -D pulse sset Master 1%+
 
-super + alt + bracketleft
-    mpc prev && $HOME/local/bin/playback
-
-super + alt + bracketright
-    mpc next && $HOME/local/bin/playback
-
-super + BackSpace
-    mpc toggle
-
 super + backslash
-    $HOME/local/bin/playback
-
-super + shift + backslash
-    notify-send -t 5000 "$(mpc playlist)"
+    /home/claussen/local/bin/clear-urgent
 
 # make sxhkd reload its configuration files:
 super + Escape

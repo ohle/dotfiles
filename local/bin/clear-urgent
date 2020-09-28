@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+for id in $(wmctrl -l | awk '{ print $1 }')
+do 
+    wmctrl -b remove,demands_attention -ir "$id"
+done
