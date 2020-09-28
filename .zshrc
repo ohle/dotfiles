@@ -59,7 +59,6 @@ export PATH="$HOME/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/snap/bin:$PATH"
 export PATH="/home/ohle/pebble-dev/pebble-sdk-4.5-linux64/bin/:$PATH"
-export PATH="$PATH:/usr/lib/go-1.12/bin"
 
 export MVN_HOME="$HOME/Apps/maven/"
 # export MANPATH="/usr/local/man:$MANPATH"
